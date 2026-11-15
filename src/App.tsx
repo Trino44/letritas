@@ -1,23 +1,81 @@
-/**
- * App Component
- *
- * Main application entry point that initializes and wraps the app layout.
- *
- * Touch event prevention is handled at the canvas level via CSS (touch-action: none)
- * to avoid accessibility issues with document-level event blocking.
- *
- * Based on specs/001-handwriting-tracing/contracts/ui-contracts.md
- * Task: T034
- */
-
 import type React from 'react';
-import { AppLayout } from './components/layout/AppLayout';
+import { useState } from 'react';
+import { findLetter } from './content/letters';
+import { ErrorBoundary } from './components/layout/ErrorBoundary';
+import { HomeScreen } from './components/screens/HomeScreen';
+import { TraceScreen } from './components/screens/TraceScreen';
+import {
+  completionsByLetter,
+  getLevel,
+  setLevel,
+  type Level,
+} from './services/progress';
+import { unlockAudio } from './services/sounds';
+import './styles/app.css';
 
-/**
- * Main App component
- */
+type ScreenState = { name: 'home' } | { name: 'trace'; letterId: string };
+
+async function enterFullscreen(): Promise<void> {
+  try {
+    if (!document.fullscreenElement)
+      await document.documentElement.requestFullscreen();
+    // En Android solo se puede bloquear la orientación en pantalla completa.
+    const o = screen.orientation as ScreenOrientation & {
+      lock?: (o: string) => Promise<void>;
+    };
+    await o.lock?.('landscape');
+  } catch {
+    // No disponible (iPhone, escritorio): se ignora.
+  }
+}
+
 export const App: React.FC = () => {
-  return <AppLayout />;
+  const [screenState, setScreenState] = useState<ScreenState>({ name: 'home' });
+  const [level, setLevelState] = useState<Level>(() => getLevel());
+  const [completions, setCompletions] = useState(() => completionsByLetter());
+
+  const goHome = () => {
+    setCompletions(completionsByLetter());
+    setScreenState({ name: 'home' });
+  };
+
+  const letter =
+    screenState.name === 'trace' ? findLetter(screenState.letterId) : undefined;
+
+  return (
+    <ErrorBoundary>
+      <main className="app">
+        {letter ? (
+          <TraceScreen
+            key={letter.id}
+            letter={letter}
+            level={level}
+            onHome={goHome}
+            onChangeLetter={(id) =>
+              setScreenState({ name: 'trace', letterId: id })
+            }
+          />
+        ) : (
+          <HomeScreen
+            level={level}
+            completions={completions}
+            onSelectLetter={(id) => {
+              unlockAudio();
+              setScreenState({ name: 'trace', letterId: id });
+            }}
+            onChangeLevel={(lv) => {
+              setLevel(lv);
+              setLevelState(lv);
+            }}
+            onFullscreen={() => {
+              unlockAudio();
+              void enterFullscreen();
+            }}
+          />
+        )}
+      </main>
+    </ErrorBoundary>
+  );
 };
 
 export default App;

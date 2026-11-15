@@ -1,12 +1,9 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.productsway.littlewriting',
-  appName: 'Little Writing',
+  appId: 'mx.letritas.app',
+  appName: 'Letritas',
   webDir: 'dist',
-  ios: {
-    scheme: 'App',
-  },
 };
 
 export default config;

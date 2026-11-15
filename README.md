@@ -1,173 +1,60 @@
-<h1 align="center">Welcome to Little Writing 👋</h1>
-<p>
-  <img alt="Version" src="https://img.shields.io/badge/version-0.1.0-blue.svg?cacheSeconds=2592000" />
-  <img src="https://img.shields.io/badge/node-%3E%3D18.0.0-blue.svg" />
-  <a href="#" target="_blank">
-    <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
-  </a>
-</p>
+# Letritas
 
-<p align="center">
-  <img src="./public/logo.png" alt="Little Writing Logo" width="200" height="200">
-</p>
+App para que niños pequeños aprendan a trazar letras con el dedo, en español mexicano.
 
-> A handwriting tracing app for kids built with React, react-konva, and Capacitor.
+El niño pone el dedo en el punto verde y sigue la flecha. La letra se va rellenando conforme avanza. Si se sale del camino, el camino se pone rojo y el teléfono vibra suave, sin perder lo avanzado. Al terminar escucha la letra y una palabra ejemplo.
 
-## Tech Stack
+## Cómo correrla
 
-- **Frontend**: React 18+, TypeScript
-- **Canvas**: react-konva
-- **Mobile**: Capacitor (iOS)
-- **Testing**: Vitest
-- **State**: Zustand
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js LTS
-- Bun (recommended) or npm
-
-### Installation
+Requisitos: Node 22 o más reciente.
 
 ```bash
-bun install
+npm install
+npm run dev
 ```
 
-### Development
+La terminal muestra una dirección `Network: http://192.168.x.x:5173`. Ábrela en el celular o la tablet conectados al mismo Wi‑Fi.
 
-```bash
-bun run dev
-```
+## Comandos
 
-Open http://localhost:5173 in your browser.
+| Comando             | Para qué                                         |
+| ------------------- | ------------------------------------------------ |
+| `npm run dev`       | Servidor de desarrollo (visible en la red local) |
+| `npm run test:unit` | Pruebas                                          |
+| `npm run typecheck` | Revisión de tipos                                |
+| `npm run build`     | Versión final en `dist/`                         |
 
-### Testing
-
-```bash
-bun test          # Run all tests
-bun test --watch  # Watch mode
-bun test --coverage  # With coverage
-```
-
-### Code Quality
-
-```bash
-just lint         # Oxlint
-just typecheck   # TypeScript
-just format      # Oxfmt (Prettier-compatible)
-just quality     # Run all checks
-```
-
-### Building
-
-```bash
-bun run build
-```
-
-### Mobile (iOS)
-
-```bash
-npx cap sync       # Sync web assets to iOS
-npx cap open ios   # Open in Xcode
-```
-
-## Project Structure
+## Estructura
 
 ```
 src/
-├── components/     # React UI components
-├── lib/            # Business logic (canvas, templates, feedback)
-├── hooks/         # Custom React hooks
-├── state/         # Zustand store
-└── styles/        # Theme and animations
+  engine/       Motor de trazado (TypeScript puro, sin React)
+    path.ts            Lee paths SVG y los muestrea por longitud
+    tracingEngine.ts   Progreso, dirección, orden, salidas del camino
+  content/      Contenido educativo
+    types.ts           Sistema de coordenadas de las plantillas
+    letters.ts         Plantillas de letras (aquí se agregan letras)
+  services/     Voz, efectos de sonido y progreso guardado en el dispositivo
+  components/
+    tracing/TracingBoard.tsx   Dibujo con react-konva y manejo del dedo
+    screens/                   Pantalla de inicio y de trazado
+tests/unit/     Pruebas del motor, de los paths y de las plantillas
 ```
 
-## Constitution Principles
+## Agregar una letra
 
-1. **Child-Centric Design** - Touch targets ≥44px, bright colors, minimal UI
-2. **Guided Stroke Learning** - Visual paths, real-time validation
-3. **Touch-First Interaction** - 60fps performance, finger/stylus support
-4. **Immediate Feedback** - Real-time validation, encouraging feedback
-5. **Simplicity** - Focused on core tracing functionality
+1. Abre `src/content/letters.ts`.
+2. Copia una letra parecida y cambia `id`, `char`, `spokenName`, `word`, `emoji` y `strokes`.
+3. Cada trazo es un path SVG en una caja de 100 × 100: línea superior en y = 10, línea media en y = 40, renglón base en y = 90. Dibuja cada trazo en el sentido en que se enseña; el orden del arreglo es el orden de los trazos.
+4. Agrega la letra a un grupo en `LETTER_GROUPS`.
+5. Corre `npm run test:unit`: valida que la plantilla sea correcta.
 
-## Troubleshooting
+## Privacidad
 
-### iOS: `Podfile` not found during `cap sync`
+No hay anuncios, cuentas ni analítica. El progreso se guarda solo en el dispositivo.
 
-```
-Error: ENOENT: no such file or directory, open '.../ios/App/Podfile'
-```
+## Créditos
 
-The iOS platform was only partially initialized. Reinitialize it:
+Basado en [Little Writing](https://github.com/jellydn/little-writing) de Dung Huynh Duc (licencia MIT, ver `LICENSE`). El motor de trazado, las plantillas y las pantallas se reescribieron para este proyecto.
 
-```bash
-rm -rf ios
-npx cap add ios
-```
-
-Then sync again:
-
-```bash
-npx cap sync
-```
-
-### iOS: CocoaPods not installed
-
-```
-Error: pod: command not found
-```
-
-Install CocoaPods:
-
-```bash
-sudo gem install cocoapods
-# or with Homebrew
-brew install cocoapods
-```
-
-### Build fails with missing `dist/` directory
-
-Run the web build before syncing to iOS:
-
-```bash
-bun run build
-npx cap sync
-```
-
-### Dev server not starting on port 5173
-
-Check if another process is using the port:
-
-```bash
-lsof -i :5173
-```
-
-Kill the process or use a different port via `--port`:
-
-```bash
-bun run dev -- --port 5174
-```
-
-## Resources
-
-- [React Konva Documentation](https://konvajs.org/docs/react/)
-- [Capacitor Documentation](https://capacitorjs.com/docs)
-- [Vitest Documentation](https://vitest.dev/)
-- [Zustand Documentation](https://github.com/pmndrs/zustand)
-
-## Author
-
-👤 **Dung Huynh**
-
-- Website: [https://productsway.com](https://productsway.com)
-- Twitter: [@jellydn](https://twitter.com/jellydn)
-- GitHub: [@jellydn](https://github.com/jellydn)
-
-## Show your support
-
-Give a ⭐️ if this project helped you!
-
-[![kofi](https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/dunghd)
-[![paypal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/dunghd)
-[![buymeacoffee](https://img.shields.io/badge/Buy_Me_A_Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://www.buymeacoffee.com/dunghd)
+Esta app es un complemento educativo y no sustituye la evaluación de un terapeuta de lenguaje.

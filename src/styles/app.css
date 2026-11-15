@@ -1,0 +1,306 @@
+:root {
+  --morado: #7c4dff;
+  --morado-osc: #5e35b1;
+  --verde: #2ecc71;
+  --naranja: #ff9800;
+  --fondo: #fffdf7;
+  --texto: #2d3436;
+  --suave: #f3eefe;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+#root {
+  height: 100dvh;
+  width: 100vw;
+}
+
+body {
+  background: var(--fondo);
+  color: var(--texto);
+  overscroll-behavior: none;
+}
+
+.app {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- Botones ---------- */
+
+.icon-btn {
+  min-width: 48px;
+  min-height: 48px;
+  font-size: 26px;
+  border-radius: 14px;
+  background: var(--suave);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-btn:active {
+  transform: scale(0.94);
+}
+
+.big-btn {
+  min-height: 56px;
+  padding: 0 24px;
+  font-size: 22px;
+  font-weight: 700;
+  border-radius: 18px;
+  color: #fff;
+}
+
+.big-btn.primary {
+  background: var(--verde);
+}
+
+.big-btn.secondary {
+  background: var(--morado);
+}
+
+.big-btn:active {
+  transform: scale(0.96);
+}
+
+/* ---------- Inicio ---------- */
+
+.home-screen {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 16px;
+  gap: 8px;
+  overflow-y: auto;
+}
+
+.home-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.home-title {
+  font-size: clamp(28px, 6vh, 44px);
+  color: var(--morado);
+  letter-spacing: 1px;
+}
+
+.home-groups {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+}
+
+.letter-group h2 {
+  font-size: 18px;
+  color: #636e72;
+  margin-bottom: 6px;
+}
+
+.letter-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+
+.letter-btn {
+  background: #fff;
+  border: 3px solid #e2d7fa;
+  border-radius: 20px;
+  min-height: 72px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+.letter-btn:active {
+  transform: scale(0.95);
+  border-color: var(--morado);
+}
+
+.letter-btn-char {
+  font-size: clamp(32px, 9vh, 56px);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--morado-osc);
+}
+
+.letter-btn-stars {
+  font-size: 14px;
+  color: #f9a825;
+  letter-spacing: 1px;
+}
+
+.home-footer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  color: #636e72;
+}
+
+.segmented {
+  display: inline-flex;
+  background: var(--suave);
+  border-radius: 14px;
+  padding: 3px;
+}
+
+.seg {
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 11px;
+  font-size: 16px;
+  color: #636e72;
+}
+
+.seg.active {
+  background: var(--morado);
+  color: #fff;
+  font-weight: 700;
+}
+
+/* ---------- Trazado ---------- */
+
+.trace-screen {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.trace-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  gap: 8px;
+}
+
+.trace-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.trace-letter {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--morado-osc);
+}
+
+.trace-emoji {
+  font-size: 28px;
+}
+
+.trace-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.trace-body {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+
+.tracing-board {
+  flex: 1;
+  min-height: 0;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  overflow: hidden;
+}
+
+/* ---------- Celebración ---------- */
+
+.celebration {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 253, 247, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: aparecer 0.25s ease-out;
+}
+
+.celebration-card {
+  background: #fff;
+  border-radius: 28px;
+  box-shadow: 0 10px 40px rgba(94, 53, 177, 0.25);
+  padding: 16px 28px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  max-height: 95%;
+}
+
+.celebration-emoji {
+  font-size: clamp(56px, 18vh, 110px);
+  line-height: 1.1;
+  animation: rebote 0.9s ease-in-out infinite alternate;
+}
+
+.celebration-praise {
+  font-size: clamp(26px, 6vh, 38px);
+  font-weight: 800;
+  color: var(--morado);
+}
+
+.celebration-word {
+  font-size: clamp(20px, 4.5vh, 28px);
+}
+
+.celebration-word strong {
+  color: var(--morado-osc);
+}
+
+.celebration-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes rebote {
+  from {
+    transform: translateY(0) rotate(-4deg);
+  }
+  to {
+    transform: translateY(-10px) rotate(4deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .celebration,
+  .celebration-emoji {
+    animation: none;
+  }
+}

@@ -55,29 +55,29 @@ describe('ErrorBoundary', () => {
         <ThrowingComponent shouldThrow />
       </ErrorBoundary>
     );
-    expect(screen.getByText('Oops!')).toBeInTheDocument();
-    expect(screen.getByText(/Something went wrong/i)).toBeInTheDocument();
+    expect(screen.getByText('¡Uy!')).toBeInTheDocument();
+    expect(screen.getByText(/Algo salió mal/i)).toBeInTheDocument();
   });
 
-  it('should render "Try Again" button in error state', () => {
+  it('should render "Intentar de nuevo" button in error state', () => {
     render(
       <ErrorBoundary>
         <ThrowingComponent shouldThrow />
       </ErrorBoundary>
     );
     expect(
-      screen.getByRole('button', { name: /Try Again/i })
+      screen.getByRole('button', { name: /Intentar de nuevo/i })
     ).toBeInTheDocument();
   });
 
-  it('should reset error state when "Try Again" is clicked', () => {
+  it('should reset error state when "Intentar de nuevo" is clicked', () => {
     const { rerender } = render(
       <ErrorBoundary>
         <ThrowingComponent shouldThrow />
       </ErrorBoundary>
     );
 
-    // Update children to non-throwing BEFORE clicking "Try Again" so that
+    // Update children to non-throwing BEFORE clicking "Intentar de nuevo" so that
     // when the boundary resets, the children won't throw again
     rerender(
       <ErrorBoundary>
@@ -85,7 +85,7 @@ describe('ErrorBoundary', () => {
       </ErrorBoundary>
     );
 
-    fireEvent.click(screen.getByRole('button', { name: /Try Again/i }));
+    fireEvent.click(screen.getByRole('button', { name: /Intentar de nuevo/i }));
 
     expect(screen.getByText('Normal content')).toBeInTheDocument();
   });
@@ -96,8 +96,10 @@ describe('ErrorBoundary', () => {
         <div>Safe content</div>
       </ErrorBoundary>
     );
-    expect(screen.queryByText('Oops!')).not.toBeInTheDocument();
-    const tryAgain = screen.queryByRole('button', { name: /Try Again/i });
+    expect(screen.queryByText('¡Uy!')).not.toBeInTheDocument();
+    const tryAgain = screen.queryByRole('button', {
+      name: /Intentar de nuevo/i,
+    });
     expect(tryAgain).not.toBeInTheDocument();
   });
 

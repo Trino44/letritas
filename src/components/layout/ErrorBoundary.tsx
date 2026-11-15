@@ -52,13 +52,13 @@ export class ErrorBoundary extends Component<Props, State> {
       return (
         <div className="error-boundary">
           <div className="error-boundary__content">
-            <h1 className="error-boundary__title">Oops!</h1>
+            <h1 className="error-boundary__title">¡Uy!</h1>
             <p className="error-boundary__message">
-              Something went wrong. Let's try again!
+              Algo salió mal. ¡Vamos a intentarlo otra vez!
             </p>
             {process.env.NODE_ENV === 'development' && this.state.error && (
               <details className="error-boundary__details">
-                <summary>Error details</summary>
+                <summary>Detalles del error</summary>
                 <pre>{this.state.error.toString()}</pre>
               </details>
             )}
@@ -66,7 +66,7 @@ export class ErrorBoundary extends Component<Props, State> {
               className="error-boundary__button"
               onClick={this.handleReset}
             >
-              Try Again
+              Intentar de nuevo
             </button>
           </div>
         </div>
