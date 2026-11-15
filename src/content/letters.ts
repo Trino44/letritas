@@ -143,6 +143,36 @@ const u: LetterDef = {
   ],
 };
 
+const S: LetterDef = {
+  id: 'S',
+  char: 'S',
+  spokenName: 'ese',
+  soundText: 'sss',
+  word: 'sol',
+  emoji: '☀️',
+  strokes: [
+    {
+      type: 'line',
+      d: 'M76 22 C70 13 60 10 50 10 C36 10 25 18 25 30 C25 42 36 47 50 50 C64 53 76 58 76 70 C76 82 64 90 50 90 C38 90 28 85 23 77',
+    },
+  ],
+};
+
+const s: LetterDef = {
+  id: 's-min',
+  char: 's',
+  spokenName: 'ese',
+  soundText: 'sss',
+  word: 'sol',
+  emoji: '☀️',
+  strokes: [
+    {
+      type: 'line',
+      d: 'M70 47 C66 42 58 40 50 40 C40 40 32 44 32 52 C32 60 40 63 50 65 C60 67 69 70 69 78 C69 86 60 90 50 90 C41 90 34 87 30 82',
+    },
+  ],
+};
+
 export const LETTER_GROUPS: LetterGroup[] = [
   {
     id: 'vocales-mayusculas',
@@ -153,6 +183,11 @@ export const LETTER_GROUPS: LetterGroup[] = [
     id: 'vocales-minusculas',
     title: 'Vocales chicas',
     letters: [a, e, i, o, u],
+  },
+  {
+    id: 'consonantes',
+    title: 'Consonantes',
+    letters: [S, s],
   },
 ];
 

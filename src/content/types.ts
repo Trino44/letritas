@@ -21,6 +21,11 @@ export interface LetterDef {
   char: string;
   /** Cómo se dice el nombre de la letra ("a", "ese", "erre"). */
   spokenName: string;
+  /**
+   * Sonido de la letra para grabar (p. ej. "sss" para la S). La voz del
+   * sistema no lo pronuncia bien, así que solo suena si hay grabación.
+   */
+  soundText?: string;
   /** Palabra ejemplo e imagen (emoji por ahora). */
   word: string;
   emoji: string;

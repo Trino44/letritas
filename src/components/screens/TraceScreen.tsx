@@ -1,5 +1,12 @@
 import type React from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  letterExample,
+  letterName,
+  letterSound,
+  PHRASES,
+  PRAISE,
+} from '@/content/clips';
 import { nextLetter } from '@/content/letters';
 import type { LetterDef } from '@/content/types';
 import { TracingEngine, type EngineEvent } from '@/engine/tracingEngine';
@@ -15,7 +22,7 @@ import {
   playWrongStart,
   vibrate,
 } from '@/services/sounds';
-import { say, stopSpeaking } from '@/services/speech';
+import { play, stopSpeaking, type Clip } from '@/services/speech';
 import { TracingBoard } from '../tracing/TracingBoard';
 
 interface Props {
@@ -25,23 +32,13 @@ interface Props {
   onChangeLetter: (letterId: string) => void;
 }
 
-const PRAISE = [
-  '¡Muy bien!',
-  '¡Excelente!',
-  '¡Lo lograste!',
-  '¡Bravo!',
-  '¡Qué bonito!',
-];
-
-function letterIntro(letter: LetterDef): string[] {
-  return [
-    `Vamos a trazar la ${letter.spokenName}.`,
-    'Empieza en el punto verde.',
-  ];
+function letterIntro(letter: LetterDef): Clip[] {
+  return [PHRASES.vamosATrazar, letterName(letter), PHRASES.empiezaPuntoVerde];
 }
 
-function letterInfo(letter: LetterDef): string[] {
-  return [letter.spokenName, `${letter.spokenName}, de ${letter.word}.`];
+function letterInfo(letter: LetterDef): Clip[] {
+  const sound = letterSound(letter);
+  return [letterName(letter), ...(sound ? [sound] : []), letterExample(letter)];
 }
 
 export const TraceScreen: React.FC<Props> = ({
@@ -69,7 +66,7 @@ export const TraceScreen: React.FC<Props> = ({
 
   useEffect(() => {
     setDone(false);
-    void say(letterIntro(letter));
+    void play(letterIntro(letter));
     return () => {
       stopSpeaking();
       if (celebrateTimer.current !== null) clearTimeout(celebrateTimer.current);
@@ -91,7 +88,7 @@ export const TraceScreen: React.FC<Props> = ({
           case 'wrongStart':
             playWrongStart();
             if (now - lastWrongStartVoice.current > 5000) {
-              void say('Empieza en el punto verde.');
+              void play(PHRASES.empiezaPuntoVerde);
               lastWrongStartVoice.current = now;
             }
             break;
@@ -107,7 +104,7 @@ export const TraceScreen: React.FC<Props> = ({
               () => setDone(true),
               900
             );
-            void say([praise, ...letterInfo(letter)]);
+            void play([praise, ...letterInfo(letter)]);
             break;
           default:
             break;
@@ -149,7 +146,7 @@ export const TraceScreen: React.FC<Props> = ({
           <button
             type="button"
             className="icon-btn"
-            onClick={() => void say(letterInfo(letter))}
+            onClick={() => void play(letterInfo(letter))}
             aria-label="Escuchar la letra"
           >
             🔊
@@ -173,12 +170,12 @@ export const TraceScreen: React.FC<Props> = ({
         />
 
         {done && (
-          <div className="celebration" role="dialog" aria-label={praise}>
+          <div className="celebration" role="dialog" aria-label={praise.text}>
             <div className="celebration-card">
               <div className="celebration-emoji" aria-hidden="true">
                 {letter.emoji}
               </div>
-              <div className="celebration-praise">{praise}</div>
+              <div className="celebration-praise">{praise.text}</div>
               <div className="celebration-word">
                 <strong>{letter.char}</strong> de {letter.word}
               </div>

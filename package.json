@@ -11,7 +11,8 @@
     "typecheck": "tsc --noEmit",
     "lint": "oxlint .",
     "format": "oxfmt",
-    "format:check": "oxfmt --check"
+    "format:check": "oxfmt --check",
+    "guion": "tsx scripts/guion.ts"
   },
   "dependencies": {
     "konva": "^10.0.0",
@@ -33,6 +34,7 @@
     "jsdom": "^30.0.0",
     "oxfmt": "^0.76.0",
     "oxlint": "^1.56.0",
+    "tsx": "^4.23.15",
     "typescript": "^7.0.0",
     "vite": "8",
     "vitest": "^5.0.0"

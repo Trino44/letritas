@@ -2,6 +2,8 @@
 
 App para que niños pequeños aprendan a trazar letras con el dedo, en español mexicano.
 
+Incluye vocales y la S para trazar, las sílabas sa‑se‑si‑so‑su y el juego "Escucha y toca".
+
 El niño pone el dedo en el punto verde y sigue la flecha. La letra se va rellenando conforme avanza. Si se sale del camino, el camino se pone rojo y el teléfono vibra suave, sin perder lo avanzado. Al terminar escucha la letra y una palabra ejemplo.
 
 ## Cómo correrla
@@ -34,6 +36,9 @@ src/
   content/      Contenido educativo
     types.ts           Sistema de coordenadas de las plantillas
     letters.ts         Plantillas de letras (aquí se agregan letras)
+    syllables.ts       Sílabas por consonante con palabra e imagen
+    clips.ts           Todo lo que la app dice, con id = nombre del audio
+  games/        Lógica de juegos (sin React)
   services/     Voz, efectos de sonido y progreso guardado en el dispositivo
   components/
     tracing/TracingBoard.tsx   Dibujo con react-konva y manejo del dedo
@@ -48,6 +53,10 @@ tests/unit/     Pruebas del motor, de los paths y de las plantillas
 3. Cada trazo es un path SVG en una caja de 100 × 100: línea superior en y = 10, línea media en y = 40, renglón base en y = 90. Dibuja cada trazo en el sentido en que se enseña; el orden del arreglo es el orden de los trazos.
 4. Agrega la letra a un grupo en `LETTER_GROUPS`.
 5. Corre `npm run test:unit`: valida que la plantilla sea correcta.
+
+## Audios grabados
+
+La app dice todo con la voz del celular mientras no haya grabaciones. Para usar una voz real, graba los audios de `docs/guion-de-grabacion.md` y cópialos a `public/audio/` con el nombre exacto (MP3 o M4A). No hay que cambiar código: si el archivo existe, se usa.
 
 ## Privacidad
 

@@ -1,8 +1,11 @@
 import type React from 'react';
 import { useState } from 'react';
 import { findLetter } from './content/letters';
+import { findSyllableGroup } from './content/syllables';
 import { ErrorBoundary } from './components/layout/ErrorBoundary';
 import { HomeScreen } from './components/screens/HomeScreen';
+import { ListenGameScreen } from './components/screens/ListenGameScreen';
+import { SyllablesScreen } from './components/screens/SyllablesScreen';
 import { TraceScreen } from './components/screens/TraceScreen';
 import {
   completionsByLetter,
@@ -13,7 +16,11 @@ import {
 import { unlockAudio } from './services/sounds';
 import './styles/app.css';
 
-type ScreenState = { name: 'home' } | { name: 'trace'; letterId: string };
+type ScreenState =
+  | { name: 'home' }
+  | { name: 'trace'; letterId: string }
+  | { name: 'syllables'; groupId: string }
+  | { name: 'game'; groupId: string };
 
 async function enterFullscreen(): Promise<void> {
   try {
@@ -39,41 +46,69 @@ export const App: React.FC = () => {
     setScreenState({ name: 'home' });
   };
 
-  const letter =
-    screenState.name === 'trace' ? findLetter(screenState.letterId) : undefined;
+  const go = (next: ScreenState) => {
+    unlockAudio();
+    setScreenState(next);
+  };
 
-  return (
-    <ErrorBoundary>
-      <main className="app">
-        {letter ? (
+  const renderScreen = () => {
+    if (screenState.name === 'trace') {
+      const letter = findLetter(screenState.letterId);
+      if (letter) {
+        return (
           <TraceScreen
             key={letter.id}
             letter={letter}
             level={level}
             onHome={goHome}
-            onChangeLetter={(id) =>
-              setScreenState({ name: 'trace', letterId: id })
-            }
+            onChangeLetter={(id) => go({ name: 'trace', letterId: id })}
           />
-        ) : (
-          <HomeScreen
-            level={level}
-            completions={completions}
-            onSelectLetter={(id) => {
-              unlockAudio();
-              setScreenState({ name: 'trace', letterId: id });
-            }}
-            onChangeLevel={(lv) => {
-              setLevel(lv);
-              setLevelState(lv);
-            }}
-            onFullscreen={() => {
-              unlockAudio();
-              void enterFullscreen();
-            }}
+        );
+      }
+    }
+    if (screenState.name === 'syllables' || screenState.name === 'game') {
+      const group = findSyllableGroup(screenState.groupId);
+      if (group && screenState.name === 'syllables') {
+        return (
+          <SyllablesScreen
+            group={group}
+            onHome={goHome}
+            onPlayGame={() => go({ name: 'game', groupId: group.id })}
           />
-        )}
-      </main>
+        );
+      }
+      if (group) {
+        return (
+          <ListenGameScreen
+            group={group}
+            onHome={goHome}
+            onBack={() => go({ name: 'syllables', groupId: group.id })}
+          />
+        );
+      }
+    }
+    return (
+      <HomeScreen
+        level={level}
+        completions={completions}
+        onSelectLetter={(id) => go({ name: 'trace', letterId: id })}
+        onSelectSyllables={(id) => go({ name: 'syllables', groupId: id })}
+        onPlayGame={(id) => go({ name: 'game', groupId: id })}
+        onChangeLevel={(lv) => {
+          setLevel(lv);
+          setLevelState(lv);
+        }}
+        onFullscreen={() => {
+          unlockAudio();
+          void enterFullscreen();
+        }}
+      />
+    );
+  };
+
+  return (
+    <ErrorBoundary>
+      <main className="app">{renderScreen()}</main>
     </ErrorBoundary>
   );
 };

@@ -29,10 +29,19 @@ export interface Attempt {
   wrongStarts: number;
 }
 
+/** Resultado de un juego o actividad que no es trazado. */
+export interface ActivityResult {
+  activityId: string;
+  at: number;
+  correct: number;
+  errors: number;
+}
+
 interface Stored {
   version: 1;
   level: Level;
   attempts: Attempt[];
+  activities?: ActivityResult[];
 }
 
 const KEY = 'letritas.v1';
@@ -96,4 +105,21 @@ export function completionsByLetter(): Record<string, number> {
 
 export function getAttempts(): Attempt[] {
   return load().attempts;
+}
+
+export function recordActivity(
+  activityId: string,
+  correct: number,
+  errors: number
+): void {
+  const d = load();
+  const list = d.activities ?? [];
+  list.push({ activityId, at: Date.now(), correct, errors });
+  if (list.length > MAX_ATTEMPTS) list.splice(0, list.length - MAX_ATTEMPTS);
+  d.activities = list;
+  save(d);
+}
+
+export function getActivities(): ActivityResult[] {
+  return load().activities ?? [];
 }

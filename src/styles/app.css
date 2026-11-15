@@ -85,10 +85,16 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+}
+
+.home-level {
+  margin-left: auto;
 }
 
 .home-title {
-  font-size: clamp(28px, 6vh, 44px);
+  font-size: clamp(24px, min(6vh, 8vw), 44px);
   color: var(--morado);
   letter-spacing: 1px;
 }
@@ -98,26 +104,27 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 12px;
+  gap: clamp(4px, 2vh, 14px);
 }
 
 .letter-group h2 {
-  font-size: 18px;
+  font-size: clamp(14px, 4vh, 18px);
   color: #636e72;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .letter-row {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 10px;
 }
 
 .letter-btn {
+  min-width: 0;
   background: #fff;
   border: 3px solid #e2d7fa;
   border-radius: 20px;
-  min-height: 72px;
+  min-height: clamp(54px, 16vh, 84px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -131,7 +138,7 @@ body {
 }
 
 .letter-btn-char {
-  font-size: clamp(32px, 9vh, 56px);
+  font-size: clamp(28px, min(8.5vh, 11vw), 56px);
   font-weight: 800;
   line-height: 1;
   color: var(--morado-osc);
@@ -302,5 +309,194 @@ body {
   .celebration,
   .celebration-emoji {
     animation: none;
+  }
+}
+
+/* ---------- Sílabas y juego ---------- */
+
+.syl-group-btn {
+  grid-column: span 2;
+}
+
+.syl-group-text {
+  font-size: clamp(20px, 5vh, 30px);
+  font-weight: 800;
+  color: var(--morado-osc);
+  letter-spacing: 1px;
+}
+
+.game-btn .letter-btn-char {
+  font-size: clamp(28px, 7vh, 44px);
+}
+
+.syl-screen {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.syl-title {
+  font-size: clamp(20px, 5vh, 28px);
+  color: var(--morado);
+}
+
+.syl-play {
+  min-height: 48px;
+  font-size: 18px;
+  padding: 0 16px;
+}
+
+.syl-grid {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+  padding: 8px 16px 16px;
+  align-content: center;
+}
+
+.syl-card {
+  background: #fff;
+  border: 3px solid #e2d7fa;
+  border-radius: 22px;
+  min-height: 110px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 6px;
+}
+
+.syl-card:active {
+  transform: scale(0.95);
+  border-color: var(--morado);
+}
+
+.syl-text {
+  font-size: clamp(36px, 11vh, 64px);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--morado-osc);
+}
+
+.syl-emoji {
+  font-size: clamp(26px, 7vh, 40px);
+  line-height: 1.1;
+}
+
+.syl-word {
+  font-size: 18px;
+  color: #636e72;
+}
+
+.syl-word strong {
+  color: var(--morado-osc);
+}
+
+.game-dots {
+  display: flex;
+  gap: 8px;
+}
+
+.dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #e2d7fa;
+}
+
+.dot.current {
+  background: var(--naranja);
+}
+
+.dot.done {
+  background: var(--verde);
+}
+
+.game-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 8px 16px 16px;
+  flex-wrap: wrap;
+}
+
+.listen-btn {
+  width: clamp(90px, 26vh, 130px);
+  height: clamp(90px, 26vh, 130px);
+  border-radius: 50%;
+  background: var(--naranja);
+  font-size: clamp(40px, 12vh, 60px);
+  box-shadow: 0 6px 0 #e08600;
+}
+
+.listen-btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 #e08600;
+}
+
+.game-options {
+  display: flex;
+  gap: 14px;
+}
+
+.syl-card.option {
+  width: clamp(110px, 32vh, 160px);
+  min-height: clamp(110px, 38vh, 170px);
+}
+
+.syl-card.option.right {
+  border-color: var(--verde);
+  background: #eafaf1;
+}
+
+.syl-card.option.wrong {
+  border-color: #ff8a80;
+  background: #fff1f0;
+  animation: sacudir 0.35s;
+}
+
+@keyframes sacudir {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-8px);
+  }
+  75% {
+    transform: translateX(8px);
+  }
+}
+
+.game-stars {
+  color: #f9a825;
+  font-size: clamp(26px, 7vh, 36px);
+  letter-spacing: 2px;
+}
+
+@media (max-height: 420px) {
+  .home-screen {
+    padding: 6px 14px;
+    gap: 4px;
+  }
+  .icon-btn {
+    min-height: 42px;
+    min-width: 42px;
+    font-size: 22px;
+  }
+  .seg {
+    min-height: 36px;
+    padding: 0 10px;
+    font-size: 15px;
+  }
+  .letter-btn-stars {
+    font-size: 12px;
   }
 }
