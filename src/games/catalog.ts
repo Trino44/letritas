@@ -4,6 +4,7 @@
 
 import type { ChoiceItem } from '@/components/screens/ChoiceGameScreen';
 import {
+  letterExample,
   letterName,
   PHRASES,
   syllableClip,
@@ -13,9 +14,13 @@ import {
 import { ALL_LETTERS } from '@/content/letters';
 import {
   R_PAIRS,
+  S_PAIRS,
   SYLLABLE_GROUPS,
+  type SoundPair,
   type SyllableGroup,
 } from '@/content/syllables';
+import type { VocabCategory } from '@/content/vocabulary';
+import { makeCompleteRounds } from './complete';
 import {
   makeFirstLetterRounds,
   toChoiceRounds,
@@ -50,8 +55,8 @@ export function syllableGame(group: SyllableGroup): GameDef {
   };
 }
 
-export function rPairsGame(): GameDef {
-  const pairs: [ChoiceItem, ChoiceItem][] = R_PAIRS.map((p) => {
+function pairsGame(id: string, title: string, list: SoundPair[]): GameDef {
+  const pairs: [ChoiceItem, ChoiceItem][] = list.map((p) => {
     const toItem = (w: { word: string; emoji: string }): ChoiceItem => ({
       key: w.word,
       label: w.word,
@@ -62,11 +67,86 @@ export function rPairsGame(): GameDef {
     return [toItem(p.soft), toItem(p.strong)];
   });
   return {
-    id: 'r-suave-o-rr',
-    title: 'R suave o RR',
+    id,
+    title,
     intro: PHRASES.escuchaPalabra,
     showEmoji: true,
     makeRounds: () => makePairRounds(pairs, 6),
+  };
+}
+
+export function rPairsGame(): GameDef {
+  return pairsGame('r-suave-o-rr', 'R suave o RR', R_PAIRS);
+}
+
+export function sPairsGame(): GameDef {
+  return pairsGame('s-o-no-s', '¿S o no S?', S_PAIRS);
+}
+
+/** Toca la letra que escuchas: suena "eme" y se elige la M. */
+export function identifyLetterGame(): GameDef {
+  const items: ChoiceItem[] = ALL_LETTERS.filter(
+    (l) => l.char === l.char.toUpperCase()
+  ).map((l) => ({
+    key: l.char,
+    label: l.char,
+    emoji: l.emoji,
+    clip: letterName(l),
+    rewardClips: [letterName(l), letterExample(l)],
+  }));
+  return {
+    id: 'toca-la-letra',
+    title: 'Toca la letra',
+    intro: PHRASES.tocaLaLetra,
+    showEmoji: false,
+    makeRounds: () => makeRounds(items, 6, 3),
+  };
+}
+
+/** Completa la palabra: 🐸 "＿po" → sa. */
+export function completeWordGame(group: SyllableGroup): GameDef {
+  return {
+    id: `completa-${group.id}`,
+    title: `Completa la palabra · ${group.letter}`,
+    intro: PHRASES.completaPalabra,
+    showEmoji: false,
+    showTargetEmoji: true,
+    makeRounds: () =>
+      makeCompleteRounds(group, 4).map((r) => {
+        const item = (text: string, target: boolean): ChoiceItem => ({
+          key: text,
+          label: text,
+          emoji: target ? r.emoji : '',
+          prompt: target ? r.prompt : undefined,
+          clip: target ? wordClip(r.word) : { id: `silaba-${text}`, text },
+          rewardClips: [
+            { id: `silaba-${r.answer}`, text: r.answer },
+            wordClip(r.word),
+          ],
+        });
+        return {
+          target: item(r.answer, true),
+          options: r.options.map((o) => item(o, false)),
+        };
+      }),
+  };
+}
+
+/** Vocabulario: suena una palabra y se toca su imagen. */
+export function vocabGame(category: VocabCategory): GameDef {
+  const items: ChoiceItem[] = category.words.map((w) => ({
+    key: w.word,
+    label: w.word,
+    emoji: w.emoji,
+    clip: wordClip(w.word),
+    rewardClips: [wordClip(w.word)],
+  }));
+  return {
+    id: `vocabulario-${category.id}`,
+    title: category.title,
+    intro: PHRASES.escuchaPalabra,
+    showEmoji: true,
+    makeRounds: () => makeRounds(items, 6, 3),
   };
 }
 

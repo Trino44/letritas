@@ -22,6 +22,8 @@ export interface ChoiceItem {
   /** Texto grande en la tarjeta. */
   label: string;
   emoji: string;
+  /** Texto bajo la imagen del objetivo (p. ej. "＿po" en Completa la palabra). */
+  prompt?: string;
   /** Lo que suena como objetivo. */
   clip: Clip;
   /** Lo que suena al acertar (además de la felicitación). */
@@ -180,7 +182,14 @@ export const ChoiceGameScreen: React.FC<Props> = ({
               onClick={() => sayTarget(false)}
               aria-label="Escuchar la palabra"
             >
-              {round.target.emoji}
+              <span>{round.target.emoji}</span>
+              {round.target.prompt && (
+                <span className="target-prompt">
+                  {feedback.kind === 'right'
+                    ? round.target.prompt.replace('＿', round.target.label)
+                    : round.target.prompt}
+                </span>
+              )}
             </button>
           )}
           <div className="game-options">

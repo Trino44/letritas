@@ -48,16 +48,23 @@ const GAME_PREFIX: [string, string][] = [
   ['memoria-', 'Memoria'],
   ['arma-silaba-', 'Arma la sílaba'],
   ['arma-palabra-', 'Arma la palabra'],
+  ['completa-', 'Completa la palabra'],
 ];
 
 const FIXED_TITLES: Record<string, string> = {
   'r-suave-o-rr': 'R suave o RR',
   'con-que-empieza': '¿Con qué empieza?',
+  's-o-no-s': '¿S o no S?',
+  'toca-la-letra': 'Toca la letra',
 };
 
 /** Nombre del juego para mostrar, a partir de su id (p. ej. "memoria-s"). */
 export function gameTitle(id: string): string {
   if (FIXED_TITLES[id]) return FIXED_TITLES[id];
+  if (id.startsWith('vocabulario-')) {
+    const topic = id.slice('vocabulario-'.length);
+    return `Palabras · ${topic.charAt(0).toUpperCase()}${topic.slice(1)}`;
+  }
   for (const [prefix, title] of GAME_PREFIX) {
     if (id.startsWith(prefix))
       return `${title} · ${id.slice(prefix.length).toUpperCase()}`;

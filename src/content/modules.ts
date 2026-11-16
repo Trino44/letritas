@@ -11,7 +11,11 @@ export type GameKind =
   | 'repeat'
   | 'memory'
   | 'build-syllable'
-  | 'build-word';
+  | 'build-word'
+  | 's-pairs'
+  | 'complete-word'
+  | 'identify-letter'
+  | 'vocab';
 
 /** Juegos que tiene cada consonante (además de los especiales). */
 const STANDARD: GameKind[] = [
@@ -20,6 +24,7 @@ const STANDARD: GameKind[] = [
   'memory',
   'build-syllable',
   'build-word',
+  'complete-word',
 ];
 
 export interface ConsonantModule {
@@ -31,12 +36,16 @@ export interface ConsonantModule {
 }
 
 export const CONSONANT_MODULES: ConsonantModule[] = [
-  { id: 's', letter: 'S', title: 'La S', games: STANDARD },
+  { id: 's', letter: 'S', title: 'La S', games: [...STANDARD, 's-pairs'] },
   { id: 'r', letter: 'R', title: 'La R', games: [...STANDARD, 'r-pairs'] },
   { id: 'm', letter: 'M', title: 'La M', games: STANDARD },
   { id: 'p', letter: 'P', title: 'La P', games: STANDARD },
   { id: 'l', letter: 'L', title: 'La L', games: STANDARD },
   { id: 't', letter: 'T', title: 'La T', games: STANDARD },
+  { id: 'd', letter: 'D', title: 'La D', games: STANDARD },
+  { id: 'n', letter: 'N', title: 'La N', games: STANDARD },
+  { id: 'f', letter: 'F', title: 'La F', games: STANDARD },
+  { id: 'b', letter: 'B', title: 'La B', games: STANDARD },
 ];
 
 export function findModule(id: string): ConsonantModule | undefined {

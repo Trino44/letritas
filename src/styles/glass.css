@@ -596,3 +596,61 @@ body {
     gap: 2px;
   }
 }
+
+/* ---------- Inicio con más consonantes, juegos y vocabulario ---------- */
+
+.letter-row.consonants {
+  grid-template-columns: repeat(auto-fit, minmax(66px, 1fr));
+}
+
+.letter-row.consonants .module-syl {
+  display: none;
+}
+
+.letter-row.games-row {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.target-emoji {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.target-prompt {
+  font-size: clamp(30px, 9vh, 48px);
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 14px rgba(201, 182, 255, 0.55);
+}
+
+.vocab-emoji {
+  font-size: clamp(36px, 11vh, 60px);
+  line-height: 1.1;
+}
+
+.vocab-grid {
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+}
+
+/* Palabras dentro de tarjetas: se ajustan al ancho para que quepan. */
+.syl-word-big {
+  font-size: clamp(15px, min(6.5vh, 4.6vw), 36px);
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  line-height: 1.15;
+  text-align: center;
+}
+
+.syl-card {
+  min-width: 0;
+  padding: 6px 4px;
+}
+
+@media (orientation: portrait) {
+  .vocab-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

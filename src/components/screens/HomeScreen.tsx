@@ -10,6 +10,8 @@ interface Props {
   onSelectLetter: (letterId: string) => void;
   onSelectModule: (moduleId: string) => void;
   onFirstLetterGame: () => void;
+  onIdentifyLetterGame: () => void;
+  onVocab: () => void;
   onOpenParents: () => void;
   onFullscreen: () => void;
 }
@@ -23,6 +25,8 @@ export const HomeScreen: React.FC<Props> = ({
   onSelectLetter,
   onSelectModule,
   onFirstLetterGame,
+  onIdentifyLetterGame,
+  onVocab,
   onOpenParents,
   onFullscreen,
 }) => {
@@ -72,7 +76,7 @@ export const HomeScreen: React.FC<Props> = ({
         ))}
 
         <section className="letter-group">
-          <h2>Consonantes y juegos</h2>
+          <h2>Consonantes</h2>
           <div className="letter-row consonants">
             {CONSONANT_MODULES.map((m) => {
               const syl = findSyllableGroup(m.id);
@@ -96,6 +100,11 @@ export const HomeScreen: React.FC<Props> = ({
                 </button>
               );
             })}
+          </div>
+        </section>
+        <section className="letter-group">
+          <h2>Juegos y palabras</h2>
+          <div className="letter-row games-row">
             <button
               type="button"
               className="letter-btn module-btn game-btn"
@@ -104,6 +113,24 @@ export const HomeScreen: React.FC<Props> = ({
             >
               <span className="letter-btn-char">🔤</span>
               <span className="module-syl">¿Con qué empieza?</span>
+            </button>
+            <button
+              type="button"
+              className="letter-btn module-btn game-btn"
+              onClick={onIdentifyLetterGame}
+              aria-label="Toca la letra"
+            >
+              <span className="letter-btn-char">🔎</span>
+              <span className="module-syl">Toca la letra</span>
+            </button>
+            <button
+              type="button"
+              className="letter-btn module-btn game-btn"
+              onClick={onVocab}
+              aria-label="Palabras"
+            >
+              <span className="letter-btn-char">📚</span>
+              <span className="module-syl">Palabras</span>
             </button>
           </div>
         </section>
