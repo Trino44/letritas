@@ -1,0 +1,424 @@
+/*
+ * Tema "vidrio": fondo morado con luces difusas y paneles translúcidos.
+ * Se carga después de app.css y solo cambia la apariencia.
+ * El área de trazado usa vidrio casi opaco para que el camino se vea bien.
+ */
+
+:root {
+  --vidrio: rgba(255, 255, 255, 0.12);
+  --vidrio-fuerte: rgba(255, 255, 255, 0.2);
+  --vidrio-borde: rgba(255, 255, 255, 0.28);
+  --vidrio-brillo: rgba(255, 255, 255, 0.55);
+  --vidrio-sombra: 0 10px 30px rgba(20, 6, 60, 0.35);
+  --blur: blur(18px) saturate(140%);
+  --texto-claro: #ffffff;
+  --texto-suave: rgba(255, 255, 255, 0.72);
+  --lila: #c9b6ff;
+  --transicion: 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+body {
+  background: #1a0f3d;
+  color: var(--texto-claro);
+}
+
+/* ---------- Fondo ---------- */
+
+.app {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, #7c4dff 0%, transparent 60%),
+    radial-gradient(900px 500px at 110% 110%, #b14dff 0%, transparent 55%),
+    linear-gradient(160deg, #241357 0%, #3a1d8f 45%, #2a1466 100%);
+  overflow: hidden;
+}
+
+.app::before,
+.app::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.55;
+  pointer-events: none;
+  animation: flotar 18s ease-in-out infinite alternate;
+}
+
+.app::before {
+  width: 40vmax;
+  height: 40vmax;
+  left: -10vmax;
+  top: 30%;
+  background: #9b6bff;
+}
+
+.app::after {
+  width: 34vmax;
+  height: 34vmax;
+  right: -8vmax;
+  top: -12vmax;
+  background: #ff7ad9;
+  opacity: 0.35;
+  animation-duration: 24s;
+}
+
+@keyframes flotar {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(6vmax, -4vmax) scale(1.1);
+  }
+}
+
+/* ---------- Vidrio común ---------- */
+
+.icon-btn,
+.letter-btn,
+.syl-card,
+.segmented,
+.parent-gate,
+.stat,
+.celebration-card,
+.trace-bar,
+.parent-section {
+  background: var(--vidrio);
+  border: 1px solid var(--vidrio-borde);
+  box-shadow:
+    var(--vidrio-sombra),
+    inset 0 1px 0 var(--vidrio-brillo);
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
+}
+
+.icon-btn,
+.letter-btn,
+.syl-card,
+.big-btn,
+.seg,
+.listen-btn,
+.parent-gate,
+.target-emoji {
+  transition:
+    transform var(--transicion),
+    background var(--transicion),
+    box-shadow var(--transicion),
+    border-color var(--transicion);
+}
+
+@media (hover: hover) {
+  .icon-btn:hover,
+  .letter-btn:hover,
+  .syl-card:hover,
+  .parent-gate:hover {
+    background: var(--vidrio-fuerte);
+    border-color: var(--vidrio-brillo);
+    transform: translateY(-3px);
+    box-shadow:
+      0 16px 36px rgba(20, 6, 60, 0.45),
+      inset 0 1px 0 var(--vidrio-brillo);
+  }
+}
+
+.icon-btn:active,
+.letter-btn:active,
+.syl-card:active {
+  transform: scale(0.95);
+  background: var(--vidrio-fuerte);
+}
+
+/* ---------- Textos ---------- */
+
+.home-title,
+.syl-title {
+  color: var(--texto-claro);
+  text-shadow: 0 2px 18px rgba(201, 182, 255, 0.6);
+  letter-spacing: 0.5px;
+}
+
+.home-title {
+  background: linear-gradient(90deg, #ffffff, var(--lila));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.letter-group h2,
+.hub-caption,
+.module-syl,
+.syl-word,
+.home-footer {
+  color: var(--texto-suave);
+}
+
+.letter-btn,
+.syl-card {
+  border-width: 1px;
+  border-radius: 22px;
+}
+
+.letter-btn-char,
+.syl-text,
+.syl-group-text,
+.syl-word-big,
+.syl-word strong,
+.trace-letter {
+  color: var(--texto-claro);
+  text-shadow: 0 2px 14px rgba(201, 182, 255, 0.55);
+}
+
+.letter-btn-stars,
+.game-stars {
+  color: #ffd166;
+  text-shadow: 0 0 10px rgba(255, 209, 102, 0.6);
+}
+
+/* ---------- Botones ---------- */
+
+.big-btn {
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow:
+    0 10px 24px rgba(20, 6, 60, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+.big-btn.primary {
+  background: linear-gradient(135deg, #34e89e, #12b886);
+}
+
+.big-btn.secondary {
+  background: linear-gradient(135deg, #9b6bff, #6a3df0);
+}
+
+.big-btn.danger {
+  background: linear-gradient(135deg, #ff6b6b, #e03131);
+}
+
+@media (hover: hover) {
+  .big-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.08);
+  }
+}
+
+.segmented {
+  border-radius: 16px;
+}
+
+.seg {
+  color: var(--texto-suave);
+}
+
+.seg.active {
+  background: linear-gradient(135deg, #9b6bff, #6a3df0);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(106, 61, 240, 0.5);
+}
+
+.listen-btn {
+  background: radial-gradient(circle at 30% 25%, #ffd08a, #ff9800 60%, #e07a00);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow:
+    0 0 0 8px rgba(255, 152, 0, 0.18),
+    0 12px 30px rgba(255, 152, 0, 0.45);
+}
+
+.listen-btn:active {
+  transform: scale(0.94);
+  box-shadow: 0 0 0 4px rgba(255, 152, 0, 0.25);
+}
+
+.target-emoji {
+  filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.35));
+}
+
+/* ---------- Trazado ---------- */
+
+.trace-bar {
+  margin: 8px 10px 0;
+  border-radius: 20px;
+  padding: 6px 8px;
+}
+
+.trace-bar .icon-btn {
+  box-shadow: none;
+}
+
+.trace-body {
+  margin: 8px 10px 10px;
+}
+
+/* El renglón es casi opaco: el niño debe ver el camino sin distracciones. */
+.tracing-board {
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid var(--vidrio-brillo);
+  box-shadow:
+    0 18px 40px rgba(20, 6, 60, 0.45),
+    inset 0 1px 0 #fff;
+}
+
+/* ---------- Celebración ---------- */
+
+.celebration {
+  background: rgba(26, 15, 61, 0.35);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  border-radius: 24px;
+}
+
+.celebration-card {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 30px;
+  color: var(--texto-claro);
+}
+
+.celebration-praise {
+  color: var(--texto-claro);
+  text-shadow: 0 2px 20px rgba(201, 182, 255, 0.8);
+}
+
+.celebration-word strong {
+  color: #ffd166;
+}
+
+/* ---------- Juegos ---------- */
+
+.dot {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.dot.current {
+  background: #ffb347;
+  box-shadow: 0 0 12px #ffb347;
+}
+
+.dot.done {
+  background: #34e89e;
+  box-shadow: 0 0 10px rgba(52, 232, 158, 0.7);
+}
+
+.syl-card.option.right {
+  background: rgba(52, 232, 158, 0.28);
+  border-color: #34e89e;
+  box-shadow:
+    0 0 0 4px rgba(52, 232, 158, 0.25),
+    var(--vidrio-sombra);
+}
+
+.syl-card.option.wrong {
+  background: rgba(255, 107, 107, 0.28);
+  border-color: #ff8a80;
+}
+
+/* ---------- Papás ---------- */
+
+.parent-gate-fill {
+  background: rgba(201, 182, 255, 0.55);
+}
+
+.parent-body h2 {
+  color: var(--texto-claro);
+}
+
+.parent-section {
+  border-radius: 22px;
+  padding: 14px 16px;
+}
+
+.stat {
+  border-radius: 20px;
+  padding: 14px 10px;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.stat strong {
+  font-size: 32px;
+  color: var(--texto-claro);
+  text-shadow: 0 2px 16px rgba(201, 182, 255, 0.6);
+}
+
+.stat span {
+  color: var(--texto-suave);
+}
+
+.stat-icon {
+  font-size: 28px;
+  margin-bottom: 2px;
+}
+
+.day-count,
+.day-label,
+.parent-table th,
+.parent-note {
+  color: var(--texto-suave);
+}
+
+.day-bar {
+  background: linear-gradient(180deg, #e2d4ff, #8b5cf6);
+  box-shadow: 0 0 14px rgba(155, 107, 255, 0.6);
+}
+
+.parent-table td {
+  color: var(--texto-claro);
+  border-bottom-color: rgba(255, 255, 255, 0.12);
+}
+
+.parent-table th {
+  border-bottom-color: rgba(255, 255, 255, 0.2);
+}
+
+.parent-table tr.muted td {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.parent-table tbody tr {
+  transition: background var(--transicion);
+}
+
+@media (hover: hover) {
+  .parent-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+}
+
+.letter-cell {
+  color: var(--texto-claro);
+}
+
+.link-btn {
+  color: #ffb3b3;
+}
+
+.parent-gate-hint {
+  background: rgba(26, 15, 61, 0.9);
+  border: 1px solid var(--vidrio-borde);
+}
+
+/* ---------- Respaldo y accesibilidad ---------- */
+
+@supports not (
+  (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))
+) {
+  .icon-btn,
+  .letter-btn,
+  .syl-card,
+  .segmented,
+  .parent-gate,
+  .stat,
+  .celebration-card,
+  .trace-bar,
+  .parent-section {
+    background: rgba(70, 40, 160, 0.85);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app::before,
+  .app::after {
+    animation: none;
+  }
+}

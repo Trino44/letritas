@@ -57,20 +57,23 @@ export const ParentScreen: React.FC<Props> = ({
       <div className="parent-body">
         <section className="parent-cards">
           <div className="stat">
+            <span className="stat-icon">✏️</span>
             <strong>{report.totalTraces}</strong>
             <span>letras trazadas</span>
           </div>
           <div className="stat">
+            <span className="stat-icon">🎮</span>
             <strong>{report.totalGames}</strong>
             <span>juegos terminados</span>
           </div>
           <div className="stat">
+            <span className="stat-icon">⏱️</span>
             <strong>{report.tracingMinutes}</strong>
             <span>minutos trazando</span>
           </div>
         </section>
 
-        <section>
+        <section className="parent-section">
           <h2>Últimos 7 días</h2>
           <div className="days" role="img" aria-label="Actividades por día">
             {report.days.map((d) => {
@@ -92,7 +95,7 @@ export const ParentScreen: React.FC<Props> = ({
           </div>
         </section>
 
-        <section>
+        <section className="parent-section">
           <h2>Letras</h2>
           <table className="parent-table">
             <thead>
@@ -116,7 +119,7 @@ export const ParentScreen: React.FC<Props> = ({
           </table>
         </section>
 
-        <section>
+        <section className="parent-section">
           <h2>Juegos</h2>
           <table className="parent-table">
             <thead>
@@ -144,7 +147,7 @@ export const ParentScreen: React.FC<Props> = ({
           </p>
         </section>
 
-        <section>
+        <section className="parent-section">
           <h2>Ajustes</h2>
           <div className="parent-row">
             <span>Nivel de trazado:</span>

@@ -19,6 +19,7 @@ import {
 import { firstLetterGame, rPairsGame, syllableGame } from './games/catalog';
 import { unlockAudio } from './services/sounds';
 import './styles/app.css';
+import './styles/glass.css';
 
 type ScreenState =
   | { name: 'home' }
