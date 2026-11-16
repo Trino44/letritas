@@ -200,7 +200,7 @@ export const RepeatScreen: React.FC<Props> = ({ group, onExit }) => {
             <div className="celebration-emoji" aria-hidden="true">
               🗣️
             </div>
-            <div className="celebration-praise">¡Muy bien!</div>
+            <div className="celebration-praise">¡Terminaste!</div>
             <div className="celebration-word game-stars">
               {'★'.repeat(firstTry)}
               {'☆'.repeat(items.length - firstTry)}
