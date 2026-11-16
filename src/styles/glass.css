@@ -443,3 +443,156 @@ body {
 .memory-card {
   overflow: visible;
 }
+
+/* ---------- Pantallas que no caben: desplazamiento y tamaños en celular ---------- */
+
+/*
+ * Las áreas de contenido se pueden desplazar si no caben. "safe center"
+ * centra cuando sobra espacio y alinea arriba cuando falta, para que nunca
+ * quede contenido cortado arriba.
+ */
+.hub-grid,
+.syl-grid,
+.game-body,
+.build-body,
+.repeat-body,
+.memory-grid,
+.home-groups {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.hub-grid,
+.syl-grid {
+  align-content: safe center;
+}
+
+.game-body,
+.repeat-body {
+  align-items: safe center;
+  align-content: safe center;
+}
+
+.build-body,
+.home-groups {
+  justify-content: safe center;
+}
+
+/* Opciones de juego: caben tres a lo ancho en cualquier celular. */
+.syl-card.option {
+  width: clamp(88px, min(32vh, 28vw), 160px);
+  min-height: clamp(96px, min(38vh, 34vw), 170px);
+}
+
+.game-options {
+  gap: clamp(8px, 2.5vw, 14px);
+}
+
+@media (orientation: portrait) {
+  .hub-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .hub-btn {
+    min-height: clamp(84px, 14vh, 130px);
+  }
+
+  .hub-btn .letter-btn-char {
+    font-size: clamp(30px, 6vh, 48px);
+  }
+
+  .game-body {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .listen-btn {
+    width: clamp(80px, 13vh, 110px);
+    height: clamp(80px, 13vh, 110px);
+    font-size: clamp(36px, 6vh, 52px);
+  }
+
+  .target-emoji {
+    font-size: clamp(64px, 12vh, 100px);
+  }
+
+  .repeat-body {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .repeat-adult {
+    align-items: stretch;
+    width: min(100%, 360px);
+  }
+
+  .repeat-card {
+    min-width: min(80vw, 280px);
+  }
+
+  .syl-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .syl-card {
+    min-height: clamp(96px, 16vh, 140px);
+  }
+
+  .build-tiles {
+    max-width: 100%;
+  }
+
+  .build-slot {
+    width: clamp(64px, 22vw, 100px);
+  }
+
+  .celebration-card {
+    max-width: 92vw;
+    padding: 14px 18px;
+  }
+
+  .celebration-actions {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+/* Horizontal con poca altura (celular acostado). */
+@media (orientation: landscape) and (max-height: 420px) {
+  .trace-bar {
+    margin-top: 6px;
+    padding: 4px 6px;
+  }
+
+  .hub-btn {
+    min-height: clamp(70px, 24vh, 120px);
+  }
+
+  .hub-btn .letter-btn-char {
+    font-size: clamp(26px, 9vh, 40px);
+  }
+
+  .hub-caption {
+    font-size: clamp(12px, 3.6vh, 16px);
+  }
+
+  .repeat-actions .big-btn {
+    min-height: 44px;
+    font-size: 18px;
+  }
+
+  .repeat-emoji {
+    font-size: clamp(44px, 15vh, 80px);
+  }
+
+  .celebration-emoji {
+    font-size: clamp(44px, 14vh, 90px);
+  }
+
+  .celebration-card {
+    padding: 10px 22px;
+    gap: 2px;
+  }
+}
