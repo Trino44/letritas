@@ -5,7 +5,7 @@
 
 import type { Clip } from '../services/speech';
 import { ALL_LETTERS } from './letters';
-import { SYLLABLE_GROUPS, type SyllableDef } from './syllables';
+import { R_PAIRS, SYLLABLE_GROUPS, type SyllableDef } from './syllables';
 import type { LetterDef } from './types';
 
 export type { Clip };
@@ -32,6 +32,10 @@ export const PHRASES = {
   escuchaYToca: {
     id: 'frase-escucha-y-toca',
     text: 'Escucha y toca la sílaba.',
+  },
+  escuchaPalabra: {
+    id: 'frase-escucha-palabra',
+    text: 'Escucha y toca la palabra que oíste.',
   },
   intentaOtraVez: { id: 'frase-intenta-otra-vez', text: 'Intenta otra vez.' },
   terminaste: {
@@ -98,5 +102,11 @@ export function allClips(): { section: string; clips: Clip[] }[] {
         g.syllables.flatMap((s) => [syllableClip(s), wordClip(s.word)])
       ),
     })),
+    {
+      section: 'R suave y RR',
+      clips: uniq(
+        R_PAIRS.flatMap((p) => [wordClip(p.soft.word), wordClip(p.strong.word)])
+      ),
+    },
   ];
 }

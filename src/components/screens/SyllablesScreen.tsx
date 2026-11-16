@@ -6,14 +6,14 @@ import { play, stopSpeaking } from '@/services/speech';
 
 interface Props {
   group: SyllableGroup;
-  onHome: () => void;
+  onExit: () => void;
   onPlayGame: () => void;
 }
 
 /** Explorar: tocar una sílaba la dice despacio y luego su palabra. */
 export const SyllablesScreen: React.FC<Props> = ({
   group,
-  onHome,
+  onExit,
   onPlayGame,
 }) => {
   useEffect(() => () => stopSpeaking(), []);
@@ -24,10 +24,10 @@ export const SyllablesScreen: React.FC<Props> = ({
         <button
           type="button"
           className="icon-btn"
-          onClick={onHome}
-          aria-label="Inicio"
+          onClick={onExit}
+          aria-label="Regresar"
         >
-          🏠
+          ⬅️
         </button>
         <h1 className="syl-title">{group.title}</h1>
         <button

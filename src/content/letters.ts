@@ -173,6 +173,36 @@ const s: LetterDef = {
   ],
 };
 
+const R: LetterDef = {
+  id: 'R',
+  char: 'R',
+  spokenName: 'erre',
+  soundText: 'rrr',
+  word: 'rey',
+  emoji: '👑',
+  strokes: [
+    { type: 'line', d: 'M28 10 L28 90' },
+    {
+      type: 'line',
+      d: 'M28 10 L52 10 C66 10 74 19 74 31 C74 43 66 51 52 51 L28 51',
+    },
+    { type: 'line', d: 'M48 51 L76 90' },
+  ],
+};
+
+const r: LetterDef = {
+  id: 'r-min',
+  char: 'r',
+  spokenName: 'erre',
+  soundText: 'rrr',
+  word: 'rey',
+  emoji: '👑',
+  strokes: [
+    { type: 'line', d: 'M36 40 L36 90' },
+    { type: 'line', d: 'M36 58 C40 46 48 40 58 40 C64 40 68 42 71 45' },
+  ],
+};
+
 export const LETTER_GROUPS: LetterGroup[] = [
   {
     id: 'vocales-mayusculas',
@@ -184,12 +214,14 @@ export const LETTER_GROUPS: LetterGroup[] = [
     title: 'Vocales chicas',
     letters: [a, e, i, o, u],
   },
-  {
-    id: 'consonantes',
-    title: 'Consonantes',
-    letters: [S, s],
-  },
+  { id: 's', title: 'La S', letters: [S, s] },
+  { id: 'r', title: 'La R', letters: [R, r] },
 ];
+
+/** Grupos de vocales (los demás son consonantes con su propia pantalla). */
+export function isVowelGroup(id: string): boolean {
+  return id.startsWith('vocales');
+}
 
 export const ALL_LETTERS: LetterDef[] = LETTER_GROUPS.flatMap((g) => g.letters);
 

@@ -1,8 +1,13 @@
+/**
+ * Juego genérico de "escucha y elige": suena algo y el niño toca la opción
+ * correcta. Sirve para sílabas (sa / se / si) y para pares de palabras
+ * (pera / perra).
+ */
+
 import type React from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { PHRASES, PRAISE, syllableClip, wordClip } from '@/content/clips';
-import type { SyllableDef, SyllableGroup } from '@/content/syllables';
-import { makeRounds } from '@/games/listenAndTap';
+import { PHRASES, PRAISE } from '@/content/clips';
+import type { Round } from '@/games/listenAndTap';
 import { recordActivity } from '@/services/progress';
 import {
   playCelebration,
@@ -10,33 +15,45 @@ import {
   playStrokeDone,
   vibrate,
 } from '@/services/sounds';
-import { play, stopSpeaking } from '@/services/speech';
+import { play, stopSpeaking, type Clip } from '@/services/speech';
 
-interface Props {
-  group: SyllableGroup;
-  onHome: () => void;
-  onBack: () => void;
+export interface ChoiceItem {
+  key: string;
+  /** Texto grande en la tarjeta. */
+  label: string;
+  emoji: string;
+  /** Lo que suena como objetivo. */
+  clip: Clip;
+  /** Lo que suena al acertar (además de la felicitación). */
+  rewardClips: Clip[];
 }
 
-const ROUNDS = 5;
+interface Props {
+  activityId: string;
+  intro: Clip;
+  /** true = la imagen se ve siempre (para palabras); false = solo al acertar. */
+  showEmoji: boolean;
+  makeRounds: () => Round<ChoiceItem>[];
+  onExit: () => void;
+  exitIcon: string;
+  exitLabel: string;
+}
 
-type Feedback =
-  | { kind: 'none' }
-  | { kind: 'right'; text: string }
-  | { kind: 'wrong'; text: string };
+type Feedback = { kind: 'none' } | { kind: 'right' | 'wrong'; key: string };
 
-export const ListenGameScreen: React.FC<Props> = ({
-  group,
-  onHome,
-  onBack,
+export const ChoiceGameScreen: React.FC<Props> = ({
+  activityId,
+  intro,
+  showEmoji,
+  makeRounds,
+  onExit,
+  exitIcon,
+  exitLabel,
 }) => {
   const [game, setGame] = useState(0);
-  const rounds = useMemo(
-    () => makeRounds(group.syllables, ROUNDS),
-    // Rondas nuevas en cada partida.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [group.id, game]
-  );
+  // Rondas nuevas en cada partida.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const rounds = useMemo(() => makeRounds(), [game]);
   const [index, setIndex] = useState(0);
   const [feedback, setFeedback] = useState<Feedback>({ kind: 'none' });
   const [errors, setErrors] = useState(0);
@@ -50,13 +67,11 @@ export const ListenGameScreen: React.FC<Props> = ({
     (withIntro: boolean) => {
       if (!round) return;
       void play(
-        withIntro
-          ? [PHRASES.escuchaYToca, syllableClip(round.target)]
-          : syllableClip(round.target),
+        withIntro ? [intro, round.target.clip] : round.target.clip,
         0.7
       );
     },
-    [round]
+    [round, intro]
   );
 
   useEffect(() => {
@@ -73,14 +88,15 @@ export const ListenGameScreen: React.FC<Props> = ({
     []
   );
 
-  const choose = (opt: SyllableDef) => {
+  const choose = (opt: ChoiceItem) => {
     if (!round || feedback.kind === 'right') return;
-    if (opt === round.target) {
+    if (opt.key === round.target.key) {
       playStrokeDone();
-      if (!wrongThisRound.current) setFirstTry((n) => n + 1);
-      setFeedback({ kind: 'right', text: opt.text });
+      const clean = !wrongThisRound.current;
+      if (clean) setFirstTry((n) => n + 1);
+      setFeedback({ kind: 'right', key: opt.key });
       const praise = PRAISE[Math.floor(Math.random() * PRAISE.length)];
-      void play([praise, syllableClip(opt), wordClip(opt.word)], 0.75);
+      void play([praise, ...opt.rewardClips], 0.75);
       timer.current = window.setTimeout(() => {
         wrongThisRound.current = false;
         setFeedback({ kind: 'none' });
@@ -89,7 +105,7 @@ export const ListenGameScreen: React.FC<Props> = ({
         if (nextIndex >= rounds.length) {
           playCelebration();
           vibrate(80);
-          recordActivity(`escucha-y-toca-${group.id}`, ROUNDS, errors);
+          recordActivity(activityId, rounds.length, errors);
           void play(PHRASES.terminaste);
         }
       }, 2200);
@@ -98,8 +114,8 @@ export const ListenGameScreen: React.FC<Props> = ({
       vibrate(40);
       wrongThisRound.current = true;
       setErrors((n) => n + 1);
-      setFeedback({ kind: 'wrong', text: opt.text });
-      void play([PHRASES.intentaOtraVez, syllableClip(round.target)], 0.7);
+      setFeedback({ kind: 'wrong', key: opt.key });
+      void play([PHRASES.intentaOtraVez, round.target.clip], 0.7);
       timer.current = window.setTimeout(
         () => setFeedback({ kind: 'none' }),
         700
@@ -123,14 +139,14 @@ export const ListenGameScreen: React.FC<Props> = ({
         <button
           type="button"
           className="icon-btn"
-          onClick={onHome}
-          aria-label="Inicio"
+          onClick={onExit}
+          aria-label={exitLabel}
         >
-          🏠
+          {exitIcon}
         </button>
         <div
           className="game-dots"
-          aria-label={`Ronda ${Math.min(index + 1, ROUNDS)} de ${ROUNDS}`}
+          aria-label={`Ronda ${Math.min(index + 1, rounds.length)} de ${rounds.length}`}
         >
           {rounds.map((_, i) => (
             <span
@@ -141,14 +157,7 @@ export const ListenGameScreen: React.FC<Props> = ({
             />
           ))}
         </div>
-        <button
-          type="button"
-          className="icon-btn"
-          onClick={onBack}
-          aria-label="Ver sílabas"
-        >
-          🔤
-        </button>
+        <span className="icon-spacer" />
       </header>
 
       {round && (
@@ -164,23 +173,26 @@ export const ListenGameScreen: React.FC<Props> = ({
           <div className="game-options">
             {round.options.map((opt) => {
               const state =
-                feedback.kind !== 'none' && feedback.text === opt.text
+                feedback.kind !== 'none' && feedback.key === opt.key
                   ? feedback.kind
                   : '';
+              const emojiVisible = showEmoji || state === 'right';
               return (
                 <button
-                  key={opt.text}
+                  key={opt.key}
                   type="button"
                   className={`syl-card option ${state}`}
                   onClick={() => choose(opt)}
-                  aria-label={`Sílaba ${opt.text}`}
+                  aria-label={opt.label}
                 >
-                  <span className="syl-text">{opt.text}</span>
-                  {state === 'right' && (
+                  {emojiVisible && (
                     <span className="syl-emoji" aria-hidden="true">
                       {opt.emoji}
                     </span>
                   )}
+                  <span className={showEmoji ? 'syl-word-big' : 'syl-text'}>
+                    {opt.label}
+                  </span>
                 </button>
               );
             })}
@@ -197,7 +209,7 @@ export const ListenGameScreen: React.FC<Props> = ({
             <div className="celebration-praise">¡Terminaste!</div>
             <div className="celebration-word game-stars">
               {'★'.repeat(firstTry)}
-              {'☆'.repeat(ROUNDS - firstTry)}
+              {'☆'.repeat(rounds.length - firstTry)}
             </div>
             <div className="celebration-actions">
               <button
@@ -210,9 +222,9 @@ export const ListenGameScreen: React.FC<Props> = ({
               <button
                 type="button"
                 className="big-btn primary"
-                onClick={onHome}
+                onClick={onExit}
               >
-                Inicio
+                Salir
               </button>
             </div>
           </div>

@@ -64,7 +64,13 @@ export function stopSpeaking(): void {
   }
 }
 
-const EXTENSIONS = ['mp3', 'm4a'];
+/**
+ * Orden de búsqueda: primero grabaciones humanas (m4a, mp3) y al final las
+ * generadas con Gemini (wav). Así una grabación propia reemplaza a la generada.
+ */
+const EXTENSIONS = ['m4a', 'mp3', 'wav'];
+/** id -> archivo que sí existe (se recuerda para no buscar otra vez). */
+const resolvedFiles = new Map<string, string>();
 
 function playOne(url: string): Promise<boolean> {
   return new Promise((resolve) => {
@@ -83,8 +89,14 @@ function playOne(url: string): Promise<boolean> {
 /** Intenta reproducir la grabación del clip. Devuelve false si no existe. */
 async function playFile(id: string): Promise<boolean> {
   if (missingFiles.has(id) || typeof Audio === 'undefined') return false;
+  const known = resolvedFiles.get(id);
+  if (known) return playOne(known);
   for (const ext of EXTENSIONS) {
-    if (await playOne(`./audio/${id}.${ext}`)) return true;
+    const url = `./audio/${id}.${ext}`;
+    if (await playOne(url)) {
+      resolvedFiles.set(id, url);
+      return true;
+    }
   }
   missingFiles.add(id);
   return false;

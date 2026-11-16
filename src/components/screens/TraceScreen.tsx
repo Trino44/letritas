@@ -30,6 +30,9 @@ interface Props {
   level: Level;
   onHome: () => void;
   onChangeLetter: (letterId: string) => void;
+  /** Ícono y texto del botón de salir (casa o flecha de regreso). */
+  exitIcon?: string;
+  exitLabel?: string;
 }
 
 function letterIntro(letter: LetterDef): Clip[] {
@@ -46,6 +49,8 @@ export const TraceScreen: React.FC<Props> = ({
   level,
   onHome,
   onChangeLetter,
+  exitIcon = '🏠',
+  exitLabel = 'Inicio',
 }) => {
   const [attempt, setAttempt] = useState(0);
   const [done, setDone] = useState(false);
@@ -132,9 +137,9 @@ export const TraceScreen: React.FC<Props> = ({
           type="button"
           className="icon-btn"
           onClick={onHome}
-          aria-label="Inicio"
+          aria-label={exitLabel}
         >
-          🏠
+          {exitIcon}
         </button>
         <div className="trace-title" aria-live="polite">
           <span className="trace-letter">{letter.char}</span>

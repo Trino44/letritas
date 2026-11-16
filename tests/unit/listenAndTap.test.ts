@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { makeRounds } from '@/games/listenAndTap';
+import { makePairRounds, makeRounds } from '@/games/listenAndTap';
 
 function seeded(seed: number): () => number {
   let s = seed;
@@ -38,5 +38,44 @@ describe('makeRounds', () => {
 
   it('rechaza un grupo de un solo elemento', () => {
     expect(() => makeRounds(['sa'], 3)).toThrow();
+  });
+});
+
+describe('makePairRounds', () => {
+  const pairs: [string, string][] = [
+    ['pera', 'perra'],
+    ['cero', 'cerro'],
+    ['coro', 'corro'],
+  ];
+
+  it('cada ronda muestra exactamente las dos palabras del par', () => {
+    const rounds = makePairRounds(pairs, 6, seeded(3));
+    expect(rounds).toHaveLength(6);
+    for (const r of rounds) {
+      const pair = pairs.find((p) => p.includes(r.target))!;
+      expect([...r.options].sort()).toEqual([...pair].sort());
+    }
+  });
+
+  it('usa todos los pares y no repite objetivo seguido', () => {
+    for (let seed = 1; seed < 40; seed++) {
+      const rounds = makePairRounds(pairs, 6, seeded(seed));
+      const used = new Set(
+        rounds.map((r) => pairs.findIndex((p) => p.includes(r.target)))
+      );
+      expect(used.size).toBe(3);
+      for (let i = 1; i < rounds.length; i++) {
+        expect(rounds[i].target).not.toBe(rounds[i - 1].target);
+      }
+    }
+  });
+
+  it('a la larga salen tanto R suave como RR', () => {
+    const rounds = makePairRounds(pairs, 60, seeded(11));
+    const soft = rounds.filter((r) =>
+      pairs.some((p) => p[0] === r.target)
+    ).length;
+    expect(soft).toBeGreaterThan(15);
+    expect(soft).toBeLessThan(45);
   });
 });

@@ -47,3 +47,26 @@ export function makeRounds<T>(
     return { target, options: shuffle([target, ...others], rng) };
   });
 }
+
+/**
+ * Rondas con pares (p. ej. pera / perra): en cada ronda se muestran las dos
+ * palabras del par y suena una de ellas al azar. Recorre los pares de forma
+ * pareja y no repite la misma palabra dos veces seguidas.
+ */
+export function makePairRounds<T>(
+  pairs: [T, T][],
+  count: number,
+  rng: Rng = Math.random
+): Round<T>[] {
+  if (pairs.length === 0) throw new Error('Se necesita al menos un par');
+  const order: [T, T][] = [];
+  while (order.length < count) order.push(...shuffle(pairs, rng));
+  const rounds: Round<T>[] = [];
+  for (const pair of order.slice(0, count)) {
+    let target = rng() < 0.5 ? pair[0] : pair[1];
+    const prev = rounds[rounds.length - 1]?.target;
+    if (target === prev) target = target === pair[0] ? pair[1] : pair[0];
+    rounds.push({ target, options: shuffle([pair[0], pair[1]], rng) });
+  }
+  return rounds;
+}

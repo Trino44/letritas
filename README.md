@@ -2,7 +2,7 @@
 
 App para que niños pequeños aprendan a trazar letras con el dedo, en español mexicano.
 
-Incluye vocales y la S para trazar, las sílabas sa‑se‑si‑so‑su y el juego "Escucha y toca".
+Incluye vocales, S y R para trazar; sílabas sa–su y ra–ru; el juego "Escucha y toca" y el juego "R suave o RR" (pera / perra).
 
 El niño pone el dedo en el punto verde y sigue la flecha. La letra se va rellenando conforme avanza. Si se sale del camino, el camino se pone rojo y el teléfono vibra suave, sin perder lo avanzado. Al terminar escucha la letra y una palabra ejemplo.
 
@@ -54,9 +54,24 @@ tests/unit/     Pruebas del motor, de los paths y de las plantillas
 4. Agrega la letra a un grupo en `LETTER_GROUPS`.
 5. Corre `npm run test:unit`: valida que la plantilla sea correcta.
 
-## Audios grabados
+## Voces
 
-La app dice todo con la voz del celular mientras no haya grabaciones. Para usar una voz real, graba los audios de `docs/guion-de-grabacion.md` y cópialos a `public/audio/` con el nombre exacto (MP3 o M4A). No hay que cambiar código: si el archivo existe, se usa.
+Todo lo que dice la app es un audio con nombre fijo (lista en `docs/guion-de-grabacion.md`). La app busca, en este orden:
+
+1. Una grabación humana: `public/audio/<nombre>.m4a` o `.mp3`.
+2. Un audio generado con Gemini: `public/audio/<nombre>.wav`.
+3. Si no hay ninguno, la voz del celular.
+
+### Generar las voces con Gemini
+
+Se hace una sola vez en la computadora; la app no llama a Gemini ni necesita internet.
+
+1. Copia `.env.example` como `.env` y pon tu clave en `GEMINI_API_KEY`. El archivo `.env` no se sube a GitHub.
+2. `npm run voces -- --lista` muestra qué audios va a generar, sin gastar.
+3. `npm run voces` genera los que falten.
+4. Escucha los audios en `public/audio/`. Para rehacer alguno: `npm run voces -- --solo silaba-sa,palabra-perra`. Para probar otra voz: `npm run voces -- --voz Achird --solo frase-muy-bien`.
+
+Los sonidos sueltos (`sonido-s`, `sonido-r`) son los más difíciles para una voz artificial: revísalos con cuidado y, si no suenan bien, grábalos tú como `.m4a` con el mismo nombre. Una grabación siempre gana sobre la generada.
 
 ## Privacidad
 

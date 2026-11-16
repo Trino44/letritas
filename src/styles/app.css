@@ -312,10 +312,51 @@ body {
   }
 }
 
-/* ---------- Sílabas y juego ---------- */
+/* ---------- Consonantes, sílabas y juegos ---------- */
 
-.syl-group-btn {
-  grid-column: span 2;
+.module-btn {
+  grid-column: span 1;
+  gap: 2px;
+}
+
+.module-syl {
+  font-size: clamp(11px, 2.8vh, 15px);
+  color: #636e72;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.icon-spacer {
+  width: 48px;
+}
+
+.hub-grid {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px;
+  padding: 8px 16px 16px;
+  align-content: center;
+}
+
+.hub-btn {
+  min-height: clamp(100px, 34vh, 170px);
+  gap: 4px;
+}
+
+.hub-caption {
+  font-size: clamp(14px, 3.6vh, 18px);
+  color: #636e72;
+  font-weight: 600;
+}
+
+.syl-word-big {
+  font-size: clamp(24px, 7vh, 40px);
+  font-weight: 800;
+  color: var(--morado-osc);
 }
 
 .syl-group-text {
@@ -499,4 +540,8 @@ body {
   .letter-btn-stars {
     font-size: 12px;
   }
+}
+
+.hub-btn .syl-group-text {
+  font-size: clamp(16px, min(4.5vh, 4.5vw), 24px);
 }

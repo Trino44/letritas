@@ -1,6 +1,7 @@
 import type React from 'react';
-import { LETTER_GROUPS } from '@/content/letters';
-import { SYLLABLE_GROUPS } from '@/content/syllables';
+import { isVowelGroup, LETTER_GROUPS } from '@/content/letters';
+import { CONSONANT_MODULES } from '@/content/modules';
+import { findSyllableGroup } from '@/content/syllables';
 import type { LetterDef } from '@/content/types';
 import { LEVEL_LABEL, type Level } from '@/services/progress';
 
@@ -8,8 +9,7 @@ interface Props {
   level: Level;
   completions: Record<string, number>;
   onSelectLetter: (letterId: string) => void;
-  onSelectSyllables: (groupId: string) => void;
-  onPlayGame: (groupId: string) => void;
+  onSelectModule: (moduleId: string) => void;
   onChangeLevel: (level: Level) => void;
   onFullscreen: () => void;
 }
@@ -24,8 +24,7 @@ export const HomeScreen: React.FC<Props> = ({
   level,
   completions,
   onSelectLetter,
-  onSelectSyllables,
-  onPlayGame,
+  onSelectModule,
   onChangeLevel,
   onFullscreen,
 }) => {
@@ -47,8 +46,7 @@ export const HomeScreen: React.FC<Props> = ({
     );
   };
 
-  const vowels = LETTER_GROUPS.filter((g) => g.id !== 'consonantes');
-  const consonants = LETTER_GROUPS.find((g) => g.id === 'consonantes');
+  const vowels = LETTER_GROUPS.filter((g) => isVowelGroup(g.id));
 
   return (
     <div className="home-screen">
@@ -89,34 +87,30 @@ export const HomeScreen: React.FC<Props> = ({
         ))}
 
         <section className="letter-group">
-          <h2>Consonantes y sílabas</h2>
+          <h2>Consonantes</h2>
           <div className="letter-row">
-            {consonants?.letters.map(letterButton)}
-            {SYLLABLE_GROUPS.map((sg) => (
-              <button
-                key={`syl-${sg.id}`}
-                type="button"
-                className="letter-btn syl-group-btn"
-                onClick={() => onSelectSyllables(sg.id)}
-                aria-label={sg.title}
-              >
-                <span className="syl-group-text">
-                  {sg.syllables.map((s) => s.text).join(' ')}
-                </span>
-              </button>
-            ))}
-            {SYLLABLE_GROUPS.map((sg) => (
-              <button
-                key={`game-${sg.id}`}
-                type="button"
-                className="letter-btn game-btn"
-                onClick={() => onPlayGame(sg.id)}
-                aria-label={`Juego de sílabas con ${sg.letter}`}
-              >
-                <span className="letter-btn-char">🎮</span>
-                <span className="letter-btn-stars">{sg.letter}</span>
-              </button>
-            ))}
+            {CONSONANT_MODULES.map((m) => {
+              const syl = findSyllableGroup(m.id);
+              return (
+                <button
+                  key={m.id}
+                  type="button"
+                  className="letter-btn module-btn"
+                  onClick={() => onSelectModule(m.id)}
+                  aria-label={m.title}
+                >
+                  <span className="letter-btn-char">
+                    {m.letter}
+                    {m.letter.toLowerCase()}
+                  </span>
+                  {syl && (
+                    <span className="module-syl">
+                      {syl.syllables.map((s) => s.text).join(' ')}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
           </div>
         </section>
       </div>

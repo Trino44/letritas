@@ -12,7 +12,8 @@
     "lint": "oxlint .",
     "format": "oxfmt",
     "format:check": "oxfmt --check",
-    "guion": "tsx scripts/guion.ts"
+    "guion": "tsx scripts/guion.ts",
+    "voces": "tsx scripts/voces.ts"
   },
   "dependencies": {
     "konva": "^10.0.0",
