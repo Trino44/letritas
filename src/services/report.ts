@@ -38,14 +38,39 @@ export interface Report {
   letters: LetterSummary[];
   games: GameSummary[];
   days: DaySummary[];
+  /** Sílabas o palabras de Escucha y repite que más le cuestan. */
+  toPractice: PracticeItem[];
 }
 
-export const GAME_TITLES: Record<string, string> = {
-  'escucha-y-toca-s': 'Sílabas con S',
-  'escucha-y-toca-r': 'Sílabas con R',
+const GAME_PREFIX: [string, string][] = [
+  ['escucha-y-toca-', 'Juego de sílabas'],
+  ['repite-', 'Escucha y repite'],
+  ['memoria-', 'Memoria'],
+  ['arma-silaba-', 'Arma la sílaba'],
+  ['arma-palabra-', 'Arma la palabra'],
+];
+
+const FIXED_TITLES: Record<string, string> = {
   'r-suave-o-rr': 'R suave o RR',
   'con-que-empieza': '¿Con qué empieza?',
 };
+
+/** Nombre del juego para mostrar, a partir de su id (p. ej. "memoria-s"). */
+export function gameTitle(id: string): string {
+  if (FIXED_TITLES[id]) return FIXED_TITLES[id];
+  for (const [prefix, title] of GAME_PREFIX) {
+    if (id.startsWith(prefix))
+      return `${title} · ${id.slice(prefix.length).toUpperCase()}`;
+  }
+  return id;
+}
+
+export interface PracticeItem {
+  key: string;
+  /** De 0 a 1: qué tan fácil le resulta (1 = lo dice a la primera). */
+  score: number;
+  times: number;
+}
 
 export function localDate(ts: number): string {
   const d = new Date(ts);
@@ -79,19 +104,14 @@ export function buildReport(
     };
   });
 
-  const gameIds = [
-    ...new Set([
-      ...Object.keys(GAME_TITLES),
-      ...activities.map((a) => a.activityId),
-    ]),
-  ];
+  const gameIds = [...new Set(activities.map((a) => a.activityId))];
   const games = gameIds.map((id) => {
     const mine = activities
       .filter((a) => a.activityId === id)
       .sort((a, b) => a.at - b.at);
     return {
       id,
-      title: GAME_TITLES[id] ?? id,
+      title: gameTitle(id),
       plays: mine.length,
       lastAt: mine.length ? mine[mine.length - 1].at : null,
       recentErrors: avg(mine.slice(-5).map((a) => a.errors)),
@@ -108,14 +128,34 @@ export function buildReport(
     });
   }
 
+  const perItem = new Map<string, number[]>();
+  for (const a of activities) {
+    if (!a.activityId.startsWith('repite-')) continue;
+    for (const it of a.items ?? []) {
+      const list = perItem.get(it.key) ?? [];
+      list.push(it.ok ? 1 / Math.max(1, it.tries) : 0);
+      perItem.set(it.key, list);
+    }
+  }
+  const toPractice = [...perItem.entries()]
+    .map(([key, scores]) => ({
+      key,
+      score: avg(scores) ?? 0,
+      times: scores.length,
+    }))
+    .filter((p) => p.score < 0.75)
+    .sort((a, b) => a.score - b.score)
+    .slice(0, 8);
+
   return {
+    toPractice,
     totalTraces: attempts.length,
     totalGames: activities.length,
     tracingMinutes: Math.round(
       attempts.reduce((a, t) => a + t.durationMs, 0) / 60000
     ),
     letters: letterSummaries,
-    games,
+    games: games.sort((a, b) => (b.lastAt ?? 0) - (a.lastAt ?? 0)),
     days: dayList,
   };
 }

@@ -203,6 +203,75 @@ const r: LetterDef = {
   ],
 };
 
+function letter(
+  id: string,
+  char: string,
+  spokenName: string,
+  word: string,
+  emoji: string,
+  strokes: string[],
+  soundText?: string
+): LetterDef {
+  return {
+    id,
+    char,
+    spokenName,
+    word,
+    emoji,
+    ...(soundText ? { soundText } : {}),
+    strokes: strokes.map((d) => ({ type: 'line' as const, d })),
+  };
+}
+
+const M = letter(
+  'M',
+  'M',
+  'eme',
+  'mano',
+  '✋',
+  ['M22 10 L22 90', 'M22 10 L50 60 L78 10', 'M78 10 L78 90'],
+  'mmm'
+);
+const m = letter(
+  'm-min',
+  'm',
+  'eme',
+  'mano',
+  '✋',
+  [
+    'M24 40 L24 90',
+    'M24 54 C24 45 30 40 37 40 C44 40 50 45 50 54 L50 90',
+    'M50 54 C50 45 56 40 63 40 C70 40 76 45 76 54 L76 90',
+  ],
+  'mmm'
+);
+const P = letter('P', 'P', 'pe', 'pato', '🦆', [
+  'M30 10 L30 90',
+  'M30 10 L52 10 C66 10 74 19 74 31 C74 43 66 52 52 52 L30 52',
+]);
+const p = letter('p-min', 'p', 'pe', 'pato', '🦆', [
+  'M32 40 L32 99',
+  'M32 50 C36 43 43 40 52 40 C64 40 72 51 72 65 C72 79 64 90 52 90 C43 90 36 86 32 80',
+]);
+const L = letter(
+  'L',
+  'L',
+  'ele',
+  'luna',
+  '🌙',
+  ['M30 10 L30 90 L72 90'],
+  'lll'
+);
+const l = letter('l-min', 'l', 'ele', 'luna', '🌙', ['M50 10 L50 90'], 'lll');
+const T = letter('T', 'T', 'te', 'tomate', '🍅', [
+  'M22 10 L78 10',
+  'M50 10 L50 90',
+]);
+const t = letter('t-min', 't', 'te', 'tomate', '🍅', [
+  'M46 18 L46 80 C46 87 50 90 56 90 C61 90 65 88 68 85',
+  'M32 40 L62 40',
+]);
+
 export const LETTER_GROUPS: LetterGroup[] = [
   {
     id: 'vocales-mayusculas',
@@ -216,6 +285,10 @@ export const LETTER_GROUPS: LetterGroup[] = [
   },
   { id: 's', title: 'La S', letters: [S, s] },
   { id: 'r', title: 'La R', letters: [R, r] },
+  { id: 'm', title: 'La M', letters: [M, m] },
+  { id: 'p', title: 'La P', letters: [P, p] },
+  { id: 'l', title: 'La L', letters: [L, l] },
+  { id: 't', title: 'La T', letters: [T, t] },
 ];
 
 /** Grupos de vocales (los demás son consonantes con su propia pantalla). */

@@ -1,7 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import { ALL_LETTERS } from '@/content/letters';
 import type { ActivityResult, Attempt } from '@/services/progress';
-import { buildReport, localDate, relativeDay } from '@/services/report';
+import {
+  buildReport,
+  gameTitle,
+  localDate,
+  relativeDay,
+} from '@/services/report';
 
 const NOW = new Date(2026, 10, 15, 18, 0).getTime();
 const DAY = 86400000;
@@ -44,11 +49,35 @@ describe('buildReport', () => {
     expect(report.letters.find((l) => l.id === 'E')!.count).toBe(0);
   });
 
-  it('resumen por juego incluye juegos sin jugar', () => {
+  it('resumen por juego, solo los jugados', () => {
     const rr = report.games.find((g) => g.id === 'r-suave-o-rr')!;
     expect(rr.plays).toBe(2);
     expect(rr.recentErrors).toBe(3);
-    expect(report.games.find((g) => g.id === 'con-que-empieza')!.plays).toBe(0);
+    expect(
+      report.games.find((g) => g.id === 'con-que-empieza')
+    ).toBeUndefined();
+  });
+
+  it('detecta lo que más le cuesta en Escucha y repite', () => {
+    const r = buildReport(
+      ALL_LETTERS,
+      [],
+      [
+        {
+          activityId: 'repite-r',
+          at: NOW,
+          correct: 2,
+          errors: 1,
+          items: [
+            { key: 'ra', ok: true, tries: 1 },
+            { key: 'rro', ok: false, tries: 3 },
+            { key: 're', ok: true, tries: 3 },
+          ],
+        },
+      ],
+      NOW
+    );
+    expect(r.toPractice.map((p) => p.key)).toEqual(['rro', 're']);
   });
 
   it('últimos 7 días, de más viejo a hoy', () => {
@@ -68,5 +97,12 @@ describe('relativeDay', () => {
     expect(relativeDay(NOW - DAY, NOW)).toBe('ayer');
     expect(relativeDay(NOW - 3 * DAY, NOW)).toBe('hace 3 días');
     expect(relativeDay(null, NOW)).toBe('—');
+  });
+});
+
+describe('gameTitle', () => {
+  it('nombra juegos por consonante', () => {
+    expect(gameTitle('memoria-p')).toBe('Memoria · P');
+    expect(gameTitle('r-suave-o-rr')).toBe('R suave o RR');
   });
 });
