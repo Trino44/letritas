@@ -23,6 +23,7 @@ import {
   DEFAULT_MODEL,
   DEFAULT_VOICE,
   extractAudio,
+  parseQuotaError,
   toWav,
 } from './voces-lib';
 
@@ -49,9 +50,15 @@ const apiKey = process.env.GEMINI_API_KEY;
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
+/** Peticiones por minuto que se permiten (la cuenta gratis tiene pocas). */
+const rpm = Number(process.env.GEMINI_TTS_RPM ?? '3');
+const pauseMs = Math.ceil(60000 / Math.max(1, rpm));
+
+class DailyQuotaError extends Error {}
+
 async function generate(clip: Clip): Promise<Uint8Array> {
   const body = JSON.stringify(buildRequest(clip, voice, model));
-  for (let attempt = 1; attempt <= 5; attempt++) {
+  for (let attempt = 1; attempt <= 6; attempt++) {
     const res = await fetch(API_URL, {
       method: 'POST',
       headers: {
@@ -60,15 +67,22 @@ async function generate(clip: Clip): Promise<Uint8Array> {
       },
       body,
     });
-    if (res.status === 429 || res.status >= 500) {
-      const wait = 2000 * attempt * attempt;
-      console.warn(
-        `  Gemini respondió ${res.status}; reintento en ${wait / 1000} s…`
-      );
-      await sleep(wait);
+    const text = await res.text();
+    if (res.status === 429) {
+      const q = parseQuotaError(text);
+      if (q.daily) throw new DailyQuotaError(q.quotaId ?? 'cuota diaria');
+      const wait = Math.ceil((q.retryAfterSec ?? 60) + 3);
+      console.warn(`  Límite por minuto; espero ${wait} s y reintento…`);
+      await sleep(wait * 1000);
       continue;
     }
-    const text = await res.text();
+    if (res.status >= 500) {
+      console.warn(
+        `  Gemini respondió ${res.status}; espero 20 s y reintento…`
+      );
+      await sleep(20000);
+      continue;
+    }
     if (!res.ok) {
       throw new Error(`Gemini respondió ${res.status}: ${text.slice(0, 400)}`);
     }
@@ -77,7 +91,7 @@ async function generate(clip: Clip): Promise<Uint8Array> {
       throw new Error(`La respuesta no trae audio: ${text.slice(0, 400)}`);
     return toWav(new Uint8Array(Buffer.from(audio.data, 'base64')));
   }
-  throw new Error('Gemini siguió ocupado después de 5 intentos.');
+  throw new Error('Gemini siguió ocupado después de 6 intentos.');
 }
 
 async function main(): Promise<void> {
@@ -90,7 +104,8 @@ async function main(): Promise<void> {
   });
 
   console.warn(
-    `Voz: ${voice} · Modelo: ${model} · Por generar: ${pending.length} de ${clips.length}`
+    `Voz: ${voice} · Modelo: ${model} · Por generar: ${pending.length} de ${clips.length}` +
+      ` · Ritmo: ${rpm} por minuto (≈ ${Math.ceil((pending.length * pauseMs) / 60000)} min)`
   );
   if (listOnly) {
     for (const c of pending) console.warn(`  ${c.id}.wav  →  "${c.text}"`);
@@ -120,6 +135,15 @@ async function main(): Promise<void> {
       process.stdout.write(`listo (${Math.round(wav.length / 1024)} KB)\n`);
     } catch (err) {
       process.stdout.write('error\n');
+      if (err instanceof DailyQuotaError) {
+        console.error(
+          `\nSe acabó la cuota del día de Gemini (${err.message}).` +
+            '\nSe reinicia a medianoche hora del Pacífico (2:00 am en CDMX).' +
+            '\nVuelve a correr npm run voces mañana: seguirá donde se quedó.'
+        );
+        failed.push(...pending.slice(i).map((c) => c.id));
+        break;
+      }
       console.error(`  ${(err as Error).message}`);
       failed.push(clip.id);
       if (/\b(400|401|403|404)\b/.test((err as Error).message)) {
@@ -127,12 +151,14 @@ async function main(): Promise<void> {
         break;
       }
     }
-    await sleep(400);
+    if (i < pending.length - 1) await sleep(pauseMs);
   }
 
   const review = pending.filter((c) => c.tts === false).map((c) => c.id);
   console.warn(
-    `\nTerminado. Fallaron: ${failed.length ? failed.join(', ') : 'ninguno'}.`
+    failed.length
+      ? `\nFaltan ${failed.length} audios; vuelve a correr npm run voces para seguir.`
+      : '\nTerminado: todos los audios quedaron generados.'
   );
   if (review.length) {
     console.warn(

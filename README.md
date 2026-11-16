@@ -68,7 +68,7 @@ Se hace una sola vez en la computadora; la app no llama a Gemini ni necesita int
 
 1. Copia `.env.example` como `.env` y pon tu clave en `GEMINI_API_KEY`. El archivo `.env` no se sube a GitHub.
 2. `npm run voces -- --lista` muestra qué audios va a generar, sin gastar.
-3. `npm run voces` genera los que falten.
+3. `npm run voces` genera los que falten. Va a ritmo de 3 por minuto (la cuenta gratis de Gemini tiene pocas peticiones por minuto y por día). Si se acaba la cuota del día, se detiene solo; al correrlo otra vez sigue donde se quedó. La cuota se reinicia a las 2:00 am (hora de CDMX).
 4. Escucha los audios en `public/audio/`. Para rehacer alguno: `npm run voces -- --solo silaba-sa,palabra-perra`. Para probar otra voz: `npm run voces -- --voz Achird --solo frase-muy-bien`.
 
 Los sonidos sueltos (`sonido-s`, `sonido-r`) son los más difíciles para una voz artificial: revísalos con cuidado y, si no suenan bien, grábalos tú como `.m4a` con el mismo nombre. Una grabación siempre gana sobre la generada.

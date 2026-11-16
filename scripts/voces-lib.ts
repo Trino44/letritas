@@ -144,3 +144,24 @@ export function toWav(bytes: Uint8Array): Uint8Array {
     String.fromCharCode(bytes[0], bytes[1], bytes[2], bytes[3]) === 'RIFF';
   return isRiff ? bytes : pcmToWav(bytes);
 }
+
+export interface QuotaInfo {
+  /** true si es el límite diario (no tiene caso esperar unos segundos). */
+  daily: boolean;
+  /** Espera sugerida por la API, en segundos. */
+  retryAfterSec: number | null;
+  /** Nombre del límite que se rebasó, si viene en la respuesta. */
+  quotaId: string | null;
+}
+
+/** Lee el cuerpo de un error 429 de Gemini para saber qué límite se rebasó. */
+export function parseQuotaError(body: string): QuotaInfo {
+  const info: QuotaInfo = { daily: false, retryAfterSec: null, quotaId: null };
+  const delay = body.match(/"retryDelay"\s*:\s*"([\d.]+)s"/);
+  if (delay) info.retryAfterSec = Number.parseFloat(delay[1]);
+  const quota = body.match(/"quotaId"\s*:\s*"([^"]+)"/);
+  if (quota) info.quotaId = quota[1];
+  info.daily =
+    /PerDay/i.test(info.quotaId ?? '') || /per day|daily/i.test(body);
+  return info;
+}

@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   buildRequest,
   extractAudio,
+  parseQuotaError,
   pcmToWav,
   styleFor,
   toWav,
@@ -65,5 +66,25 @@ describe('generador de voces', () => {
     expect(String.fromCharCode(...wav.slice(0, 4))).toBe('RIFF');
     expect(toWav(wav)).toBe(wav);
     expect(toWav(pcm).length).toBe(48);
+  });
+});
+
+describe('errores de cuota', () => {
+  it('distingue el límite diario', () => {
+    const body =
+      '{"error":{"code":429,"details":[{"violations":[{"quotaId":"GenerateRequestsPerDayPerProjectPerModel-FreeTier"}]},{"retryDelay":"12s"}]}}';
+    expect(parseQuotaError(body)).toEqual({
+      daily: true,
+      retryAfterSec: 12,
+      quotaId: 'GenerateRequestsPerDayPerProjectPerModel-FreeTier',
+    });
+  });
+
+  it('reconoce el límite por minuto con su espera', () => {
+    const body =
+      '{"error":{"details":[{"violations":[{"quotaId":"GenerateRequestsPerMinutePerProjectPerModel-FreeTier"}]},{"retryDelay":"41.5s"}]}}';
+    const q = parseQuotaError(body);
+    expect(q.daily).toBe(false);
+    expect(q.retryAfterSec).toBe(41.5);
   });
 });
