@@ -326,6 +326,22 @@ const b = letter('b-min', 'b', 'be', 'barco', '⛵', [
   'M30 62 C32 48 41 40 52 40 C64 40 72 51 72 65 C72 79 64 90 52 90 C41 90 33 82 30 72',
 ]);
 
+/** Doble r: se traza como dos r seguidas. */
+const rr = letter(
+  'rr-min',
+  'rr',
+  'erre',
+  'perro',
+  '🐶',
+  [
+    'M24 40 L24 90',
+    'M24 58 C27 47 33 40 41 40 C45 40 48 41 50 43',
+    'M58 40 L58 90',
+    'M58 58 C61 47 67 40 75 40 C79 40 82 41 84 43',
+  ],
+  'rrr'
+);
+
 export const LETTER_GROUPS: LetterGroup[] = [
   {
     id: 'vocales-mayusculas',
@@ -347,6 +363,7 @@ export const LETTER_GROUPS: LetterGroup[] = [
   { id: 'n', title: 'La N', letters: [N, n] },
   { id: 'f', title: 'La F', letters: [F, f] },
   { id: 'b', title: 'La B', letters: [B, b] },
+  { id: 'rr', title: 'La RR', letters: [rr] },
 ];
 
 /** Grupos de vocales (los demás son consonantes con su propia pantalla). */

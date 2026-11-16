@@ -14,6 +14,10 @@ import { ErrorBoundary } from './components/layout/ErrorBoundary';
 import { ChoiceGameScreen } from './components/screens/ChoiceGameScreen';
 import { BuildScreen } from './components/screens/BuildScreen';
 import { ConsonantScreen } from './components/screens/ConsonantScreen';
+import { HandScreen } from './components/screens/HandScreen';
+import { ReadScreen } from './components/screens/ReadScreen';
+import { StoryScreen } from './components/screens/StoryScreen';
+import { findReading } from './content/reading';
 import { MemoryScreen } from './components/screens/MemoryScreen';
 import { RepeatScreen } from './components/screens/RepeatScreen';
 import { HomeScreen } from './components/screens/HomeScreen';
@@ -143,6 +147,30 @@ export const App: React.FC = () => {
       if (group && kind === 'repeat') {
         return (
           <RepeatScreen key={`rep-${group.id}`} group={group} onExit={back} />
+        );
+      }
+      const reading = moduleId ? findReading(moduleId) : undefined;
+      if (reading && kind === 'read') {
+        return (
+          <ReadScreen
+            key={`read-${reading.id}`}
+            reading={reading}
+            onExit={back}
+          />
+        );
+      }
+      if (reading && kind === 'story') {
+        return (
+          <StoryScreen
+            key={`story-${reading.id}`}
+            reading={reading}
+            onExit={back}
+          />
+        );
+      }
+      if (group && kind === 'hand') {
+        return (
+          <HandScreen key={`hand-${group.id}`} group={group} onExit={back} />
         );
       }
       if (group && kind === 'memory') {

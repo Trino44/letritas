@@ -1,7 +1,9 @@
 import type React from 'react';
 import { LETTER_GROUPS } from '@/content/letters';
 import type { ConsonantModule, GameKind } from '@/content/modules';
+import { findReading } from '@/content/reading';
 import { findSyllableGroup } from '@/content/syllables';
+import { Syl } from '../ui/Syl';
 
 interface Props {
   module: ConsonantModule;
@@ -24,6 +26,9 @@ const GAME_LABEL: Record<GameKind, { icon: string; text: string }> = {
   's-pairs': { icon: '👂', text: '¿S o no S?' },
   'identify-letter': { icon: '🔎', text: 'Toca la letra' },
   vocab: { icon: '📚', text: 'Palabras' },
+  hand: { icon: '✋', text: 'La mano' },
+  read: { icon: '📖', text: 'Lee conmigo' },
+  story: { icon: '📚', text: 'Cuento' },
 };
 
 function stars(n: number): string {
@@ -41,6 +46,7 @@ export const ConsonantScreen: React.FC<Props> = ({
 }) => {
   const letters = LETTER_GROUPS.find((g) => g.id === module.id)?.letters ?? [];
   const syl = findSyllableGroup(module.id);
+  const hasReading = findReading(module.id) !== undefined;
 
   return (
     <div className="syl-screen">
@@ -81,23 +87,27 @@ export const ConsonantScreen: React.FC<Props> = ({
             aria-label={syl.title}
           >
             <span className="syl-group-text">
-              {syl.syllables.map((s) => s.text).join(' ')}
+              {syl.syllables.map((s) => (
+                <Syl key={s.text} text={s.text} className="syl-inline" />
+              ))}
             </span>
             <span className="hub-caption">Sílabas</span>
           </button>
         )}
-        {module.games.map((g) => (
-          <button
-            key={g}
-            type="button"
-            className="letter-btn hub-btn game-btn"
-            onClick={() => onGame(g)}
-            aria-label={GAME_LABEL[g].text}
-          >
-            <span className="letter-btn-char">{GAME_LABEL[g].icon}</span>
-            <span className="hub-caption">{GAME_LABEL[g].text}</span>
-          </button>
-        ))}
+        {module.games
+          .filter((g) => (g !== 'read' && g !== 'story') || hasReading)
+          .map((g) => (
+            <button
+              key={g}
+              type="button"
+              className="letter-btn hub-btn game-btn"
+              onClick={() => onGame(g)}
+              aria-label={GAME_LABEL[g].text}
+            >
+              <span className="letter-btn-char">{GAME_LABEL[g].icon}</span>
+              <span className="hub-caption">{GAME_LABEL[g].text}</span>
+            </button>
+          ))}
       </div>
     </div>
   );

@@ -69,12 +69,32 @@ describe('armar sílabas', () => {
   it('cada ronda trae la consonante, la vocal y distractores', () => {
     for (let seed = 1; seed < 20; seed++) {
       for (const r of makeSyllableBuild(m, ['S', 'P', 'L'], 5, seeded(seed))) {
-        expect(r.answer[0]).toBe('m');
+        expect(r.answer).toContain('m');
         expect(r.answer.join('')).toBe(r.target);
         for (const piece of r.answer) expect(r.tiles).toContain(piece);
         expect(r.tiles).toHaveLength(5);
         expect(new Set(r.tiles).size).toBe(5);
       }
+    }
+  });
+
+  it('incluye sílabas inversas con la vocal primero', () => {
+    const s = findSyllableGroup('s')!;
+    const all = Array.from({ length: 30 }, (_, k) =>
+      makeSyllableBuild(s, ['M'], 5, seeded(k + 1))
+    ).flat();
+    const inv = all.filter((r) =>
+      ['as', 'es', 'is', 'os', 'us'].includes(r.target)
+    );
+    expect(inv.length).toBeGreaterThan(0);
+    for (const r of inv) expect(r.answer).toEqual([r.target[0], 's']);
+  });
+
+  it('la RR se arma con rr y no con r', () => {
+    const rr = findSyllableGroup('rr')!;
+    for (const r of makeSyllableBuild(rr, ['R', 'S'], 5, seeded(4))) {
+      expect(r.answer[0]).toBe('rr');
+      expect(r.answer.join('')).toBe(r.target);
     }
   });
 
@@ -119,6 +139,7 @@ describe('completa la palabra', () => {
       for (let seed = 1; seed < 15; seed++) {
         for (const r of makeCompleteRounds(g, 4, seeded(seed))) {
           expect(r.prompt).toContain(BLANK);
+          if (g.medial && seed === 1) expect(r.answer).toMatch(/^rr/);
           expect(r.prompt.replace(BLANK, r.answer)).toBe(r.word);
           expect(r.options).toContain(r.answer);
           expect(r.options).toHaveLength(3);

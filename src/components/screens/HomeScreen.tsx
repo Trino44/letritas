@@ -89,8 +89,7 @@ export const HomeScreen: React.FC<Props> = ({
                   aria-label={m.title}
                 >
                   <span className="letter-btn-char">
-                    {m.letter}
-                    {m.letter.toLowerCase()}
+                    {m.label ?? `${m.letter}${m.letter.toLowerCase()}`}
                   </span>
                   {syl && (
                     <span className="module-syl">

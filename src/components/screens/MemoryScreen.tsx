@@ -19,6 +19,7 @@ import {
   vibrate,
 } from '@/services/sounds';
 import { play, stopSpeaking } from '@/services/speech';
+import { Syl } from '../ui/Syl';
 
 interface Props {
   group: SyllableGroup;
@@ -140,7 +141,11 @@ export const MemoryScreen: React.FC<Props> = ({ group, onExit }) => {
                     {c.face === 'image' ? (
                       <span className="memory-emoji">{syl.emoji}</span>
                     ) : (
-                      <span className="memory-text">{syl.text}</span>
+                      <Syl
+                        text={syl.text}
+                        surface="light"
+                        className="memory-text"
+                      />
                     )}
                   </span>
                 </span>

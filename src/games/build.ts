@@ -3,7 +3,7 @@
  * (sa + po = sapo). Sin React.
  */
 
-import type { SyllableDef, SyllableGroup } from '@/content/syllables';
+import type { SyllableGroup } from '@/content/syllables';
 import type { Rng } from './listenAndTap';
 
 export interface BuildRound {
@@ -43,12 +43,22 @@ export function makeSyllableBuild(
   const others = otherConsonants
     .map((c) => c.toLowerCase())
     .filter((c) => c !== consonant);
-  const picked = shuffle(group.syllables, rng).slice(
-    0,
-    Math.min(count, group.syllables.length)
-  );
-  return picked.map((s: SyllableDef) => {
-    const vowel = s.text.slice(consonant.length);
+  // Hasta 2 sílabas inversas (as, ar) entre las directas (sa, ra).
+  const direct = shuffle(group.syllables, rng).map((s) => ({
+    s,
+    inverse: false,
+  }));
+  const inverse = shuffle(group.inverse ?? [], rng)
+    .slice(0, 2)
+    .map((s) => ({ s, inverse: true }));
+  const picked = shuffle(
+    [...direct.slice(0, Math.max(1, count - inverse.length)), ...inverse],
+    rng
+  ).slice(0, count);
+  return picked.map(({ s, inverse: inv }) => {
+    const vowel = inv
+      ? s.text.slice(0, s.text.length - consonant.length)
+      : s.text.slice(consonant.length);
     const distractor = others.length ? shuffle(others, rng)[0] : null;
     const otherVowels = shuffle(
       VOWELS.filter((v) => v !== vowel),
@@ -60,7 +70,7 @@ export function makeSyllableBuild(
     );
     return {
       target: s.text,
-      answer: [consonant, vowel],
+      answer: inv ? [vowel, consonant] : [consonant, vowel],
       tiles,
       emoji: s.emoji,
       word: s.word,

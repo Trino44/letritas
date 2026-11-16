@@ -18,6 +18,13 @@ export interface SyllableDef {
 
 export interface SyllableGroup {
   id: string;
+  /**
+   * true si las sílabas van en medio de la palabra (rra en "perra"), no al
+   * principio. Así funcionan la RR y otras que nunca inician palabra.
+   */
+  medial?: boolean;
+  /** Sílabas inversas (am, as, ar…), con una palabra que las contiene. */
+  inverse?: SyllableDef[];
   /** Letra que se practica, como se muestra. */
   letter: string;
   title: string;
@@ -29,6 +36,13 @@ export const SYLLABLE_GROUPS: SyllableGroup[] = [
     id: 's',
     letter: 'S',
     title: 'Sílabas con S',
+    inverse: [
+      { text: 'as', word: 'más', emoji: '➕' },
+      { text: 'es', word: 'escoba', emoji: '🧹' },
+      { text: 'is', word: 'isla', emoji: '🏝️' },
+      { text: 'os', word: 'osos', emoji: '🐻' },
+      { text: 'us', word: 'autobús', emoji: '🚌' },
+    ],
     syllables: [
       { text: 'sa', word: 'sapo', emoji: '🐸', parts: ['sa', 'po'] },
       { text: 'se', word: 'semáforo', emoji: '🚦' },
@@ -41,6 +55,13 @@ export const SYLLABLE_GROUPS: SyllableGroup[] = [
     id: 'r',
     letter: 'R',
     title: 'Sílabas con R',
+    inverse: [
+      { text: 'ar', word: 'árbol', emoji: '🌳' },
+      { text: 'er', word: 'comer', emoji: '🍽️' },
+      { text: 'ir', word: 'dormir', emoji: '😴' },
+      { text: 'or', word: 'flor', emoji: '🌸' },
+      { text: 'ur', word: 'surfear', emoji: '🏄' },
+    ],
     syllables: [
       { text: 'ra', word: 'ratón', emoji: '🐭', parts: ['ra', 'tón'] },
       { text: 're', word: 'regalo', emoji: '🎁', parts: ['re', 'ga', 'lo'] },
@@ -53,6 +74,13 @@ export const SYLLABLE_GROUPS: SyllableGroup[] = [
     id: 'm',
     letter: 'M',
     title: 'Sílabas con M',
+    inverse: [
+      { text: 'am', word: 'ambulancia', emoji: '🚑' },
+      { text: 'em', word: 'empanada', emoji: '🥟' },
+      { text: 'im', word: 'imán', emoji: '🧲' },
+      { text: 'om', word: 'bombón', emoji: '🍬' },
+      { text: 'um', word: 'cumpleaños', emoji: '🎂' },
+    ],
     syllables: [
       { text: 'ma', word: 'mano', emoji: '✋', parts: ['ma', 'no'] },
       { text: 'me', word: 'melón', emoji: '🍈', parts: ['me', 'lón'] },
@@ -77,6 +105,13 @@ export const SYLLABLE_GROUPS: SyllableGroup[] = [
     id: 'l',
     letter: 'L',
     title: 'Sílabas con L',
+    inverse: [
+      { text: 'al', word: 'sal', emoji: '🧂' },
+      { text: 'el', word: 'miel', emoji: '🍯' },
+      { text: 'il', word: 'abril', emoji: '📅' },
+      { text: 'ol', word: 'sol', emoji: '☀️' },
+      { text: 'ul', word: 'azul', emoji: '🔵' },
+    ],
     syllables: [
       { text: 'la', word: 'lata', emoji: '🥫', parts: ['la', 'ta'] },
       { text: 'le', word: 'león', emoji: '🦁', parts: ['le', 'ón'] },
@@ -113,6 +148,13 @@ export const SYLLABLE_GROUPS: SyllableGroup[] = [
     id: 'n',
     letter: 'N',
     title: 'Sílabas con N',
+    inverse: [
+      { text: 'an', word: 'pan', emoji: '🍞' },
+      { text: 'en', word: 'tren', emoji: '🚂' },
+      { text: 'in', word: 'pingüino', emoji: '🐧' },
+      { text: 'on', word: 'ratón', emoji: '🐭' },
+      { text: 'un', word: 'uno', emoji: '1️⃣' },
+    ],
     syllables: [
       { text: 'na', word: 'nariz', emoji: '👃', parts: ['na', 'riz'] },
       { text: 'ne', word: 'negro', emoji: '⚫', parts: ['ne', 'gro'] },
@@ -143,6 +185,24 @@ export const SYLLABLE_GROUPS: SyllableGroup[] = [
       { text: 'bi', word: 'bici', emoji: '🚲', parts: ['bi', 'ci'] },
       { text: 'bo', word: 'bota', emoji: '👢', parts: ['bo', 'ta'] },
       { text: 'bu', word: 'burro', emoji: '🫏', parts: ['bu', 'rro'] },
+    ],
+  },
+  {
+    id: 'rr',
+    letter: 'RR',
+    title: 'Sílabas con RR',
+    medial: true,
+    syllables: [
+      { text: 'rra', word: 'perra', emoji: '🐕', parts: ['pe', 'rra'] },
+      { text: 'rre', word: 'torre', emoji: '🏰', parts: ['to', 'rre'] },
+      { text: 'rri', word: 'burrito', emoji: '🌯', parts: ['bu', 'rri', 'to'] },
+      { text: 'rro', word: 'perro', emoji: '🐶', parts: ['pe', 'rro'] },
+      {
+        text: 'rru',
+        word: 'carrusel',
+        emoji: '🎠',
+        parts: ['ca', 'rru', 'sel'],
+      },
     ],
   },
 ];

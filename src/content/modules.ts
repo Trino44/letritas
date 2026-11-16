@@ -15,12 +15,18 @@ export type GameKind =
   | 's-pairs'
   | 'complete-word'
   | 'identify-letter'
-  | 'vocab';
+  | 'vocab'
+  | 'hand'
+  | 'read'
+  | 'story';
 
 /** Juegos que tiene cada consonante (además de los especiales). */
 const STANDARD: GameKind[] = [
+  'hand',
   'syllables',
   'repeat',
+  'read',
+  'story',
   'memory',
   'build-syllable',
   'build-word',
@@ -31,20 +37,30 @@ export interface ConsonantModule {
   /** Igual al id del grupo de letras y del grupo de sílabas. */
   id: string;
   letter: string;
+  /** Cómo se ve en el botón del inicio (por defecto "Mm"). */
+  label?: string;
   title: string;
   games: GameKind[];
 }
 
+/** En el orden del cuadernillo "Sí leo y escribo, sílabas 1". */
 export const CONSONANT_MODULES: ConsonantModule[] = [
-  { id: 's', letter: 'S', title: 'La S', games: [...STANDARD, 's-pairs'] },
-  { id: 'r', letter: 'R', title: 'La R', games: [...STANDARD, 'r-pairs'] },
   { id: 'm', letter: 'M', title: 'La M', games: STANDARD },
-  { id: 'p', letter: 'P', title: 'La P', games: STANDARD },
   { id: 'l', letter: 'L', title: 'La L', games: STANDARD },
+  { id: 'p', letter: 'P', title: 'La P', games: STANDARD },
+  { id: 's', letter: 'S', title: 'La S', games: [...STANDARD, 's-pairs'] },
   { id: 't', letter: 'T', title: 'La T', games: STANDARD },
-  { id: 'd', letter: 'D', title: 'La D', games: STANDARD },
   { id: 'n', letter: 'N', title: 'La N', games: STANDARD },
+  { id: 'd', letter: 'D', title: 'La D', games: STANDARD },
   { id: 'f', letter: 'F', title: 'La F', games: STANDARD },
+  { id: 'r', letter: 'R', title: 'La R', games: [...STANDARD, 'r-pairs'] },
+  {
+    id: 'rr',
+    letter: 'RR',
+    label: 'rr',
+    title: 'La RR',
+    games: [...STANDARD, 'r-pairs'],
+  },
   { id: 'b', letter: 'B', title: 'La B', games: STANDARD },
 ];
 

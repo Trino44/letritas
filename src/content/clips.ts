@@ -12,6 +12,7 @@ import {
   type SyllableDef,
 } from './syllables';
 import { VOCABULARY } from './vocabulary';
+import { READING } from './reading';
 import type { LetterDef } from './types';
 
 export type { Clip };
@@ -38,6 +39,12 @@ export const PHRASES = {
   escuchaYToca: {
     id: 'frase-escucha-y-toca',
     text: 'Escucha y toca la sílaba.',
+  },
+  leeConmigo: { id: 'frase-lee-conmigo', text: 'Vamos a leer juntos.' },
+  escuchaCuento: { id: 'frase-escucha-cuento', text: 'Escucha el cuento.' },
+  respondeSiNo: {
+    id: 'frase-responde-si-no',
+    text: 'Escucha la pregunta y contesta sí o no.',
   },
   tocaLaLetra: { id: 'frase-toca-la-letra', text: 'Escucha y toca la letra.' },
   completaPalabra: { id: 'frase-completa-palabra', text: '¿Qué sílaba falta?' },
@@ -96,6 +103,22 @@ export function wordClip(word: string): Clip {
   return { id: `palabra-${slug(word)}`, text: word };
 }
 
+export function sentenceClip(unit: string, i: number, text: string): Clip {
+  return { id: `oracion-${unit}-${i + 1}`, text };
+}
+
+export function storyClip(unit: string, i: number, text: string): Clip {
+  return { id: `cuento-${unit}-${i + 1}`, text };
+}
+
+export function storyTitleClip(unit: string, text: string): Clip {
+  return { id: `cuento-${unit}-titulo`, text };
+}
+
+export function questionClip(unit: string, i: number, text: string): Clip {
+  return { id: `pregunta-${unit}-${i + 1}`, text };
+}
+
 /** Lista sin repetidos de todos los clips, para el guion de grabación. */
 export function allClips(): { section: string; clips: Clip[] }[] {
   // Un mismo audio (p. ej. "pera") puede usarse en varias secciones: se
@@ -120,7 +143,10 @@ export function allClips(): { section: string; clips: Clip[] }[] {
     ...SYLLABLE_GROUPS.map((g) => ({
       section: g.title,
       clips: uniq(
-        g.syllables.flatMap((s) => [syllableClip(s), wordClip(s.word)])
+        [...g.syllables, ...(g.inverse ?? [])].flatMap((s) => [
+          syllableClip(s),
+          wordClip(s.word),
+        ])
       ),
     })),
     {
@@ -135,6 +161,15 @@ export function allClips(): { section: string; clips: Clip[] }[] {
         S_PAIRS.flatMap((p) => [wordClip(p.soft.word), wordClip(p.strong.word)])
       ),
     },
+    ...READING.map((r) => ({
+      section: `Lectura: ${r.id.toUpperCase()}`,
+      clips: uniq([
+        ...r.sentences.map((t, i) => sentenceClip(r.id, i, t)),
+        storyTitleClip(r.id, r.story.title),
+        ...r.story.sentences.map((t, i) => storyClip(r.id, i, t)),
+        ...r.story.questions.map((q, i) => questionClip(r.id, i, q.text)),
+      ]),
+    })),
     ...VOCABULARY.map((c) => ({
       section: `Vocabulario: ${c.title}`,
       clips: uniq(c.words.map((w) => wordClip(w.word))),

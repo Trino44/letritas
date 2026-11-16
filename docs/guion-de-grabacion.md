@@ -2,7 +2,7 @@
 
 Archivo generado con `npm run guion`; no lo edites a mano.
 
-Total: 205 audios.
+Total: 409 audios.
 
 ## Cómo grabar
 
@@ -20,6 +20,9 @@ Total: 205 audios.
 | ☐ | `frase-vamos-a-trazar.mp3` | Vamos a trazar la |
 | ☐ | `frase-empieza-punto-verde.mp3` | Empieza en el punto verde. |
 | ☐ | `frase-escucha-y-toca.mp3` | Escucha y toca la sílaba. |
+| ☐ | `frase-lee-conmigo.mp3` | Vamos a leer juntos. |
+| ☐ | `frase-escucha-cuento.mp3` | Escucha el cuento. |
+| ☐ | `frase-responde-si-no.mp3` | Escucha la pregunta y contesta sí o no. |
 | ☐ | `frase-toca-la-letra.mp3` | Escucha y toca la letra. |
 | ☐ | `frase-completa-palabra.mp3` | ¿Qué sílaba falta? |
 | ☐ | `frase-escucha-y-repite.mp3` | Escucha y repite. |
@@ -76,6 +79,9 @@ Total: 205 audios.
 | ☐ | `letra-f-de-foca.mp3` | efe, de foca. |
 | ☐ | `letra-b.mp3` | be |
 | ☐ | `letra-b-de-barco.mp3` | be, de barco. |
+| ☐ | `letra-rr.mp3` | erre |
+| ☐ | `sonido-rr.mp3` | rrr *(solo grabado)* |
+| ☐ | `letra-rr-de-perro.mp3` | erre, de perro. |
 
 ## Sílabas con S
 
@@ -91,6 +97,16 @@ Total: 205 audios.
 | ☐ | `palabra-sopa.mp3` | sopa |
 | ☐ | `silaba-su.mp3` | su |
 | ☐ | `palabra-sueter.mp3` | suéter |
+| ☐ | `silaba-as.mp3` | as |
+| ☐ | `palabra-mas.mp3` | más |
+| ☐ | `silaba-es.mp3` | es |
+| ☐ | `palabra-escoba.mp3` | escoba |
+| ☐ | `silaba-is.mp3` | is |
+| ☐ | `palabra-isla.mp3` | isla |
+| ☐ | `silaba-os.mp3` | os |
+| ☐ | `palabra-osos.mp3` | osos |
+| ☐ | `silaba-us.mp3` | us |
+| ☐ | `palabra-autobus.mp3` | autobús |
 
 ## Sílabas con R
 
@@ -106,6 +122,16 @@ Total: 205 audios.
 | ☐ | `palabra-rosa.mp3` | rosa |
 | ☐ | `silaba-ru.mp3` | ru |
 | ☐ | `palabra-rueda.mp3` | rueda |
+| ☐ | `silaba-ar.mp3` | ar |
+| ☐ | `palabra-arbol.mp3` | árbol |
+| ☐ | `silaba-er.mp3` | er |
+| ☐ | `palabra-comer.mp3` | comer |
+| ☐ | `silaba-ir.mp3` | ir |
+| ☐ | `palabra-dormir.mp3` | dormir |
+| ☐ | `silaba-or.mp3` | or |
+| ☐ | `palabra-flor.mp3` | flor |
+| ☐ | `silaba-ur.mp3` | ur |
+| ☐ | `palabra-surfear.mp3` | surfear |
 
 ## Sílabas con M
 
@@ -121,6 +147,16 @@ Total: 205 audios.
 | ☐ | `palabra-mono.mp3` | mono |
 | ☐ | `silaba-mu.mp3` | mu |
 | ☐ | `palabra-muneca.mp3` | muñeca |
+| ☐ | `silaba-am.mp3` | am |
+| ☐ | `palabra-ambulancia.mp3` | ambulancia |
+| ☐ | `silaba-em.mp3` | em |
+| ☐ | `palabra-empanada.mp3` | empanada |
+| ☐ | `silaba-im.mp3` | im |
+| ☐ | `palabra-iman.mp3` | imán |
+| ☐ | `silaba-om.mp3` | om |
+| ☐ | `palabra-bombon.mp3` | bombón |
+| ☐ | `silaba-um.mp3` | um |
+| ☐ | `palabra-cumpleanos.mp3` | cumpleaños |
 
 ## Sílabas con P
 
@@ -151,6 +187,15 @@ Total: 205 audios.
 | ☐ | `palabra-loro.mp3` | loro |
 | ☐ | `silaba-lu.mp3` | lu |
 | ☐ | `palabra-luna.mp3` | luna |
+| ☐ | `silaba-al.mp3` | al |
+| ☐ | `palabra-sal.mp3` | sal |
+| ☐ | `silaba-el.mp3` | el |
+| ☐ | `silaba-il.mp3` | il |
+| ☐ | `palabra-abril.mp3` | abril |
+| ☐ | `silaba-ol.mp3` | ol |
+| ☐ | `palabra-sol.mp3` | sol |
+| ☐ | `silaba-ul.mp3` | ul |
+| ☐ | `palabra-azul.mp3` | azul |
 
 ## Sílabas con T
 
@@ -196,6 +241,15 @@ Total: 205 audios.
 | ☐ | `palabra-noche.mp3` | noche |
 | ☐ | `silaba-nu.mp3` | nu |
 | ☐ | `palabra-nube.mp3` | nube |
+| ☐ | `silaba-an.mp3` | an |
+| ☐ | `palabra-pan.mp3` | pan |
+| ☐ | `silaba-en.mp3` | en |
+| ☐ | `palabra-tren.mp3` | tren |
+| ☐ | `silaba-in.mp3` | in |
+| ☐ | `palabra-pinguino.mp3` | pingüino |
+| ☐ | `silaba-on.mp3` | on |
+| ☐ | `silaba-un.mp3` | un |
+| ☐ | `palabra-uno.mp3` | uno |
 
 ## Sílabas con F
 
@@ -227,11 +281,25 @@ Total: 205 audios.
 | ☐ | `silaba-bu.mp3` | bu |
 | ☐ | `palabra-burro.mp3` | burro |
 
+## Sílabas con RR
+
+| ✔ | Archivo | Qué decir |
+|---|---|---|
+| ☐ | `silaba-rra.mp3` | rra |
+| ☐ | `palabra-perra.mp3` | perra |
+| ☐ | `silaba-rre.mp3` | rre |
+| ☐ | `palabra-torre.mp3` | torre |
+| ☐ | `silaba-rri.mp3` | rri |
+| ☐ | `palabra-burrito.mp3` | burrito |
+| ☐ | `silaba-rro.mp3` | rro |
+| ☐ | `palabra-perro.mp3` | perro |
+| ☐ | `silaba-rru.mp3` | rru |
+| ☐ | `palabra-carrusel.mp3` | carrusel |
+
 ## R suave y RR
 
 | ✔ | Archivo | Qué decir |
 |---|---|---|
-| ☐ | `palabra-perra.mp3` | perra |
 | ☐ | `palabra-cero.mp3` | cero |
 | ☐ | `palabra-cerro.mp3` | cerro |
 | ☐ | `palabra-coro.mp3` | coro |
@@ -242,16 +310,213 @@ Total: 205 audios.
 | ✔ | Archivo | Qué decir |
 |---|---|---|
 | ☐ | `palabra-copa.mp3` | copa |
-| ☐ | `palabra-sol.mp3` | sol |
 | ☐ | `palabra-col.mp3` | col |
 | ☐ | `palabra-saco.mp3` | saco |
 | ☐ | `palabra-taco.mp3` | taco |
+
+## Lectura: M
+
+| ✔ | Archivo | Qué decir |
+|---|---|---|
+| ☐ | `oracion-m-1.mp3` | Mamá me ama. |
+| ☐ | `oracion-m-2.mp3` | Amo a mi mamá. |
+| ☐ | `oracion-m-3.mp3` | Mi mamá mima a Memo. |
+| ☐ | `oracion-m-4.mp3` | Memo mima a Mimí. |
+| ☐ | `oracion-m-5.mp3` | Mamá y Memo. |
+| ☐ | `cuento-m-titulo.mp3` | Memo y su mamá |
+| ☐ | `cuento-m-1.mp3` | Memo tiene una mamá. |
+| ☐ | `cuento-m-2.mp3` | Mamá mima a Memo. |
+| ☐ | `cuento-m-3.mp3` | Memo ama a su mamá. |
+| ☐ | `cuento-m-4.mp3` | Mamá y Memo comen juntos. |
+| ☐ | `pregunta-m-1.mp3` | ¿Mamá mima a Memo? |
+| ☐ | `pregunta-m-2.mp3` | ¿Memo ama a su mamá? |
+| ☐ | `pregunta-m-3.mp3` | ¿Memo come solo? |
+
+## Lectura: L
+
+| ✔ | Archivo | Qué decir |
+|---|---|---|
+| ☐ | `oracion-l-1.mp3` | Lola lee. |
+| ☐ | `oracion-l-2.mp3` | Lalo ama a Lola. |
+| ☐ | `oracion-l-3.mp3` | La mula es mala. |
+| ☐ | `oracion-l-4.mp3` | Lili mima a la mula. |
+| ☐ | `oracion-l-5.mp3` | Mi mamá le lee a Lalo. |
+| ☐ | `cuento-l-titulo.mp3` | La mula Lula |
+| ☐ | `cuento-l-1.mp3` | Lula es una mula. |
+| ☐ | `cuento-l-2.mp3` | A Lula le gusta la miel. |
+| ☐ | `cuento-l-3.mp3` | Lalo le lleva miel a Lula. |
+| ☐ | `cuento-l-4.mp3` | Lula está muy feliz. |
+| ☐ | `pregunta-l-1.mp3` | ¿Lula es una mula? |
+| ☐ | `pregunta-l-2.mp3` | ¿A Lula le gusta la sal? |
+| ☐ | `pregunta-l-3.mp3` | ¿Lalo le lleva miel a Lula? |
+
+## Lectura: P
+
+| ✔ | Archivo | Qué decir |
+|---|---|---|
+| ☐ | `oracion-p-1.mp3` | Papá mira el mapa. |
+| ☐ | `oracion-p-2.mp3` | Pepe pela la papa. |
+| ☐ | `oracion-p-3.mp3` | La pipa es de papá. |
+| ☐ | `oracion-p-4.mp3` | Pepa pule el piso. |
+| ☐ | `oracion-p-5.mp3` | Mi papá me ama. |
+| ☐ | `cuento-p-titulo.mp3` | El pato Pepe |
+| ☐ | `cuento-p-1.mp3` | Pepe es un pato. |
+| ☐ | `cuento-p-2.mp3` | Pepe pasea por la loma. |
+| ☐ | `cuento-p-3.mp3` | Papá pato mira a Pepe. |
+| ☐ | `cuento-p-4.mp3` | Pepe se mete a la laguna. |
+| ☐ | `pregunta-p-1.mp3` | ¿Pepe es un pato? |
+| ☐ | `pregunta-p-2.mp3` | ¿Papá pato mira a Pepe? |
+| ☐ | `pregunta-p-3.mp3` | ¿Pepe es un perro? |
+
+## Lectura: S
+
+| ✔ | Archivo | Qué decir |
+|---|---|---|
+| ☐ | `oracion-s-1.mp3` | Susi sale al sol. |
+| ☐ | `oracion-s-2.mp3` | El sapo salta solo. |
+| ☐ | `oracion-s-3.mp3` | Sami pasa la sal. |
+| ☐ | `oracion-s-4.mp3` | Los osos son lindos. |
+| ☐ | `oracion-s-5.mp3` | Mis papás me besan. |
+| ☐ | `cuento-s-titulo.mp3` | El sapo Saúl |
+| ☐ | `cuento-s-1.mp3` | Saúl es un sapo. |
+| ☐ | `cuento-s-2.mp3` | Saúl salta sobre las piedras. |
+| ☐ | `cuento-s-3.mp3` | Saúl se asoma al sol. |
+| ☐ | `cuento-s-4.mp3` | Susi saluda a Saúl. |
+| ☐ | `cuento-s-5.mp3` | Los dos se sientan en el pasto. |
+| ☐ | `pregunta-s-1.mp3` | ¿Saúl es un sapo? |
+| ☐ | `pregunta-s-2.mp3` | ¿Saúl se asoma a la luna? |
+| ☐ | `pregunta-s-3.mp3` | ¿Susi saluda a Saúl? |
+
+## Lectura: T
+
+| ✔ | Archivo | Qué decir |
+|---|---|---|
+| ☐ | `oracion-t-1.mp3` | Tito toma té. |
+| ☐ | `oracion-t-2.mp3` | Mi tía tiene una moto. |
+| ☐ | `oracion-t-3.mp3` | El tomate es de Tita. |
+| ☐ | `oracion-t-4.mp3` | Tomás pinta la mesa. |
+| ☐ | `oracion-t-5.mp3` | La pata está en el patio. |
+| ☐ | `cuento-t-titulo.mp3` | La tortuga Tina |
+| ☐ | `cuento-t-1.mp3` | Tina es una tortuga. |
+| ☐ | `cuento-t-2.mp3` | Tina toma el sol en el patio. |
+| ☐ | `cuento-t-3.mp3` | Tito le pone un tomate. |
+| ☐ | `cuento-t-4.mp3` | Tina se lo come todito. |
+| ☐ | `pregunta-t-1.mp3` | ¿Tina es una tortuga? |
+| ☐ | `pregunta-t-2.mp3` | ¿Tito le pone una pelota? |
+| ☐ | `pregunta-t-3.mp3` | ¿Tina se come el tomate? |
+
+## Lectura: N
+
+| ✔ | Archivo | Qué decir |
+|---|---|---|
+| ☐ | `oracion-n-1.mp3` | Nina nada. |
+| ☐ | `oracion-n-2.mp3` | Ana tiene un pino. |
+| ☐ | `oracion-n-3.mp3` | La luna sale de noche. |
+| ☐ | `oracion-n-4.mp3` | Nino no tiene sueño. |
+| ☐ | `oracion-n-5.mp3` | Mi nana me mima. |
+| ☐ | `cuento-n-titulo.mp3` | La nube Nena |
+| ☐ | `cuento-n-1.mp3` | Nena es una nube. |
+| ☐ | `cuento-n-2.mp3` | Nena pasea en la noche. |
+| ☐ | `cuento-n-3.mp3` | La luna mira a Nena. |
+| ☐ | `cuento-n-4.mp3` | Nena no tiene miedo. |
+| ☐ | `pregunta-n-1.mp3` | ¿Nena es una nube? |
+| ☐ | `pregunta-n-2.mp3` | ¿Nena pasea de día? |
+| ☐ | `pregunta-n-3.mp3` | ¿La luna mira a Nena? |
+
+## Lectura: D
+
+| ✔ | Archivo | Qué decir |
+|---|---|---|
+| ☐ | `oracion-d-1.mp3` | Dani tiene un dado. |
+| ☐ | `oracion-d-2.mp3` | Me duele un diente. |
+| ☐ | `oracion-d-3.mp3` | Dora me da la mano. |
+| ☐ | `oracion-d-4.mp3` | Papá me da una dona. |
+| ☐ | `oracion-d-5.mp3` | El dedo de Dino. |
+| ☐ | `cuento-d-titulo.mp3` | El dinosaurio Dino |
+| ☐ | `cuento-d-1.mp3` | Dino es un dinosaurio. |
+| ☐ | `cuento-d-2.mp3` | Dino come dulces y donas. |
+| ☐ | `cuento-d-3.mp3` | Un día le duele un diente. |
+| ☐ | `cuento-d-4.mp3` | Dino ya no come tantos dulces. |
+| ☐ | `pregunta-d-1.mp3` | ¿Dino es un dinosaurio? |
+| ☐ | `pregunta-d-2.mp3` | ¿A Dino le duele la pata? |
+| ☐ | `pregunta-d-3.mp3` | ¿Dino come donas? |
+
+## Lectura: F
+
+| ✔ | Archivo | Qué decir |
+|---|---|---|
+| ☐ | `oracion-f-1.mp3` | Fani tiene una falda. |
+| ☐ | `oracion-f-2.mp3` | La foca es feliz. |
+| ☐ | `oracion-f-3.mp3` | Fito toma fotos. |
+| ☐ | `oracion-f-4.mp3` | La fiesta es de Fela. |
+| ☐ | `oracion-f-5.mp3` | Mi familia sale a pasear. |
+| ☐ | `cuento-f-titulo.mp3` | La foca Fifí |
+| ☐ | `cuento-f-1.mp3` | Fifí es una foca. |
+| ☐ | `cuento-f-2.mp3` | Fifí nada feliz en el mar. |
+| ☐ | `cuento-f-3.mp3` | Fifí juega con su familia. |
+| ☐ | `cuento-f-4.mp3` | Al final, Fifí se duerme. |
+| ☐ | `pregunta-f-1.mp3` | ¿Fifí es una foca? |
+| ☐ | `pregunta-f-2.mp3` | ¿Fifí está triste? |
+| ☐ | `pregunta-f-3.mp3` | ¿Fifí juega con su familia? |
+
+## Lectura: R
+
+| ✔ | Archivo | Qué decir |
+|---|---|---|
+| ☐ | `oracion-r-1.mp3` | La rosa es roja. |
+| ☐ | `oracion-r-2.mp3` | Ramón rema en el río. |
+| ☐ | `oracion-r-3.mp3` | La rana mira la luna. |
+| ☐ | `oracion-r-4.mp3` | Rita come peras. |
+| ☐ | `oracion-r-5.mp3` | El loro dice: ¡hola, Sara! |
+| ☐ | `cuento-r-titulo.mp3` | La rana Rosa |
+| ☐ | `cuento-r-1.mp3` | Rosa es una rana. |
+| ☐ | `cuento-r-2.mp3` | Rosa rema en el río. |
+| ☐ | `cuento-r-3.mp3` | Un loro le dice: ¡hola, Rosa! |
+| ☐ | `cuento-r-4.mp3` | Rosa se ríe y sigue remando. |
+| ☐ | `pregunta-r-1.mp3` | ¿Rosa es una rana? |
+| ☐ | `pregunta-r-2.mp3` | ¿Rosa rema en el mar? |
+| ☐ | `pregunta-r-3.mp3` | ¿El loro saluda a Rosa? |
+
+## Lectura: RR
+
+| ✔ | Archivo | Qué decir |
+|---|---|---|
+| ☐ | `oracion-rr-1.mp3` | El perro corre. |
+| ☐ | `oracion-rr-2.mp3` | La torre es alta. |
+| ☐ | `oracion-rr-3.mp3` | Mi carro es rojo. |
+| ☐ | `oracion-rr-4.mp3` | El burro come pasto. |
+| ☐ | `oracion-rr-5.mp3` | La perrita se aburre. |
+| ☐ | `cuento-rr-titulo.mp3` | El perro Rocco |
+| ☐ | `cuento-rr-1.mp3` | Rocco es un perro. |
+| ☐ | `cuento-rr-2.mp3` | Rocco corre y corre en el parque. |
+| ☐ | `cuento-rr-3.mp3` | Rocco ve a un burro. |
+| ☐ | `cuento-rr-4.mp3` | El burro y Rocco corren juntos. |
+| ☐ | `pregunta-rr-1.mp3` | ¿Rocco es un perro? |
+| ☐ | `pregunta-rr-2.mp3` | ¿Rocco ve a un gato? |
+| ☐ | `pregunta-rr-3.mp3` | ¿Rocco corre con el burro? |
+
+## Lectura: B
+
+| ✔ | Archivo | Qué decir |
+|---|---|---|
+| ☐ | `oracion-b-1.mp3` | Beto bebe agua. |
+| ☐ | `oracion-b-2.mp3` | El bebé baila. |
+| ☐ | `oracion-b-3.mp3` | Mi bota es bonita. |
+| ☐ | `oracion-b-4.mp3` | Bibi sube al barco. |
+| ☐ | `oracion-b-5.mp3` | Toma tu bici. |
+| ☐ | `cuento-b-titulo.mp3` | El barco de Beto |
+| ☐ | `cuento-b-1.mp3` | Beto tiene un barco. |
+| ☐ | `cuento-b-2.mp3` | El barco es azul y bonito. |
+| ☐ | `cuento-b-3.mp3` | Beto sube al barco con su abuela. |
+| ☐ | `cuento-b-4.mp3` | Ven una ballena y la saludan. |
+| ☐ | `pregunta-b-1.mp3` | ¿Beto tiene un barco? |
+| ☐ | `pregunta-b-2.mp3` | ¿El barco es rojo? |
+| ☐ | `pregunta-b-3.mp3` | ¿Ven una ballena? |
 
 ## Vocabulario: Animales
 
 | ✔ | Archivo | Qué decir |
 |---|---|---|
-| ☐ | `palabra-perro.mp3` | perro |
 | ☐ | `palabra-gato.mp3` | gato |
 | ☐ | `palabra-vaca.mp3` | vaca |
 | ☐ | `palabra-caballo.mp3` | caballo |
@@ -277,7 +542,6 @@ Total: 205 audios.
 | ✔ | Archivo | Qué decir |
 |---|---|---|
 | ☐ | `palabra-rojo.mp3` | rojo |
-| ☐ | `palabra-azul.mp3` | azul |
 | ☐ | `palabra-verde.mp3` | verde |
 | ☐ | `palabra-amarillo.mp3` | amarillo |
 | ☐ | `palabra-morado.mp3` | morado |
