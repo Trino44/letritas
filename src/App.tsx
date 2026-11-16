@@ -1,11 +1,19 @@
 import type React from 'react';
 import { useState } from 'react';
 import { findLetter } from './content/letters';
-import { findModule, moduleOfLetter, type GameKind } from './content/modules';
+import {
+  CONSONANT_MODULES,
+  findModule,
+  moduleOfLetter,
+  type GameKind,
+} from './content/modules';
 import { findSyllableGroup } from './content/syllables';
 import { ErrorBoundary } from './components/layout/ErrorBoundary';
 import { ChoiceGameScreen } from './components/screens/ChoiceGameScreen';
+import { BuildScreen } from './components/screens/BuildScreen';
 import { ConsonantScreen } from './components/screens/ConsonantScreen';
+import { MemoryScreen } from './components/screens/MemoryScreen';
+import { RepeatScreen } from './components/screens/RepeatScreen';
 import { HomeScreen } from './components/screens/HomeScreen';
 import { ParentScreen } from './components/screens/ParentScreen';
 import { SyllablesScreen } from './components/screens/SyllablesScreen';
@@ -16,6 +24,7 @@ import {
   setLevel,
   type Level,
 } from './services/progress';
+import { makeSyllableBuild, makeWordBuild } from './games/build';
 import { firstLetterGame, rPairsGame, syllableGame } from './games/catalog';
 import { unlockAudio } from './services/sounds';
 import './styles/app.css';
@@ -113,6 +122,36 @@ export const App: React.FC = () => {
     if (screenState.name === 'game') {
       const { moduleId, kind } = screenState;
       const group = moduleId ? findSyllableGroup(moduleId) : undefined;
+      const back = moduleId ? () => goModule(moduleId) : goHome;
+      if (group && kind === 'repeat') {
+        return (
+          <RepeatScreen key={`rep-${group.id}`} group={group} onExit={back} />
+        );
+      }
+      if (group && kind === 'memory') {
+        return (
+          <MemoryScreen key={`mem-${group.id}`} group={group} onExit={back} />
+        );
+      }
+      if (group && (kind === 'build-syllable' || kind === 'build-word')) {
+        const others = CONSONANT_MODULES.map((m) => m.letter);
+        return (
+          <BuildScreen
+            key={`${kind}-${group.id}`}
+            activityId={`${kind === 'build-syllable' ? 'arma-silaba' : 'arma-palabra'}-${group.id}`}
+            title={
+              kind === 'build-syllable' ? 'Arma la sílaba' : 'Arma la palabra'
+            }
+            mode={kind === 'build-syllable' ? 'syllable' : 'word'}
+            makeRounds={() =>
+              kind === 'build-syllable'
+                ? makeSyllableBuild(group, others, 5)
+                : makeWordBuild(group, 4)
+            }
+            onExit={back}
+          />
+        );
+      }
       const def =
         kind === 'first-letter'
           ? firstLetterGame()

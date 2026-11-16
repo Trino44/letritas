@@ -2,7 +2,7 @@
 
 App para que niños pequeños aprendan a trazar letras con el dedo, en español mexicano.
 
-Incluye vocales, S y R para trazar; sílabas sa–su y ra–ru; los juegos "Escucha y toca", "R suave o RR" (pera / perra) y "¿Con qué empieza?"; y un panel para papás (mantener presionado 👪 en el inicio).
+Incluye vocales y las consonantes S, R, M, P, L y T. Cada consonante tiene trazado, sílabas y cinco juegos: Juego de sílabas, Escucha y repite, Memoria, Arma la sílaba y Arma la palabra. Además: "R suave o RR" (pera / perra), "¿Con qué empieza?" y un panel para papás (mantener presionado 👪 en el inicio).
 
 El niño pone el dedo en el punto verde y sigue la flecha. La letra se va rellenando conforme avanza. Si se sale del camino, el camino se pone rojo y el teléfono vibra suave, sin perder lo avanzado. Al terminar escucha la letra y una palabra ejemplo.
 

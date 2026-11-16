@@ -16,6 +16,10 @@ const GAME_LABEL: Record<GameKind, { icon: string; text: string }> = {
   syllables: { icon: '🎮', text: 'Juego de sílabas' },
   'r-pairs': { icon: '👂', text: 'R suave o RR' },
   'first-letter': { icon: '🔤', text: '¿Con qué empieza?' },
+  repeat: { icon: '🗣️', text: 'Escucha y repite' },
+  memory: { icon: '🧠', text: 'Memoria' },
+  'build-syllable': { icon: '🧩', text: 'Arma la sílaba' },
+  'build-word': { icon: '🔠', text: 'Arma la palabra' },
 };
 
 function stars(n: number): string {

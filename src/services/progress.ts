@@ -35,6 +35,16 @@ export interface ActivityResult {
   at: number;
   correct: number;
   errors: number;
+  /** Detalle por elemento (p. ej. cada sílaba en Escucha y repite). */
+  items?: ItemResult[];
+}
+
+export interface ItemResult {
+  key: string;
+  /** true = lo logró; false = se pasó sin lograrlo. */
+  ok: boolean;
+  /** Veces que se escuchó/intentó antes de terminar. */
+  tries: number;
 }
 
 interface Stored {
@@ -110,11 +120,18 @@ export function getAttempts(): Attempt[] {
 export function recordActivity(
   activityId: string,
   correct: number,
-  errors: number
+  errors: number,
+  items?: ItemResult[]
 ): void {
   const d = load();
   const list = d.activities ?? [];
-  list.push({ activityId, at: Date.now(), correct, errors });
+  list.push({
+    activityId,
+    at: Date.now(),
+    correct,
+    errors,
+    ...(items ? { items } : {}),
+  });
   if (list.length > MAX_ATTEMPTS) list.splice(0, list.length - MAX_ATTEMPTS);
   d.activities = list;
   save(d);

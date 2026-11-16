@@ -32,6 +32,8 @@ body {
     radial-gradient(900px 500px at 110% 110%, #b14dff 0%, transparent 55%),
     linear-gradient(160deg, #241357 0%, #3a1d8f 45%, #2a1466 100%);
   overflow: hidden;
+  /* clip: nadie puede desplazar la app de lado (p. ej. al voltear tarjetas). */
+  overflow: clip;
 }
 
 .app::before,
@@ -83,7 +85,8 @@ body {
 .stat,
 .celebration-card,
 .trace-bar,
-.parent-section {
+.parent-section,
+.repeat-card {
   background: var(--vidrio);
   border: 1px solid var(--vidrio-borde);
   box-shadow:
@@ -421,4 +424,22 @@ body {
   .app::after {
     animation: none;
   }
+}
+
+.repeat-card,
+.repeat-label {
+  color: var(--texto-claro);
+}
+
+.repeat-label {
+  text-shadow: 0 2px 14px rgba(201, 182, 255, 0.55);
+}
+
+.repeat-hint,
+.repeat-adult-title {
+  color: var(--texto-suave);
+}
+
+.memory-card {
+  overflow: visible;
 }

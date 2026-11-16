@@ -73,7 +73,7 @@ export const HomeScreen: React.FC<Props> = ({
 
         <section className="letter-group">
           <h2>Consonantes y juegos</h2>
-          <div className="letter-row">
+          <div className="letter-row consonants">
             {CONSONANT_MODULES.map((m) => {
               const syl = findSyllableGroup(m.id);
               return (

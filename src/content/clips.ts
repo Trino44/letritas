@@ -33,6 +33,13 @@ export const PHRASES = {
     id: 'frase-escucha-y-toca',
     text: 'Escucha y toca la sílaba.',
   },
+  escuchaYRepite: { id: 'frase-escucha-y-repite', text: 'Escucha y repite.' },
+  encuentraParejas: {
+    id: 'frase-encuentra-parejas',
+    text: 'Encuentra las parejas.',
+  },
+  armaSilaba: { id: 'frase-arma-silaba', text: 'Escucha y arma la sílaba.' },
+  armaPalabra: { id: 'frase-arma-palabra', text: 'Escucha y arma la palabra.' },
   conQueEmpieza: {
     id: 'frase-con-que-empieza',
     text: '¿Con qué letra empieza?',
@@ -83,8 +90,10 @@ export function wordClip(word: string): Clip {
 
 /** Lista sin repetidos de todos los clips, para el guion de grabación. */
 export function allClips(): { section: string; clips: Clip[] }[] {
+  // Un mismo audio (p. ej. "pera") puede usarse en varias secciones: se
+  // lista solo la primera vez.
+  const seen = new Set<string>();
   const uniq = (list: Clip[]): Clip[] => {
-    const seen = new Set<string>();
     return list.filter((c) =>
       seen.has(c.id) ? false : (seen.add(c.id), true)
     );

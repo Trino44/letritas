@@ -119,6 +119,24 @@ export const ParentScreen: React.FC<Props> = ({
           </table>
         </section>
 
+        {report.toPractice.length > 0 && (
+          <section className="parent-section">
+            <h2>Para practicar más</h2>
+            <p className="parent-note">
+              En Escucha y repite, lo que más le cuesta (necesitó repetir o se
+              pasó):
+            </p>
+            <div className="practice-chips">
+              {report.toPractice.map((p) => (
+                <span key={p.key} className="practice-chip">
+                  {p.key}
+                  <small>{Math.round(p.score * 100)}%</small>
+                </span>
+              ))}
+            </div>
+          </section>
+        )}
+
         <section className="parent-section">
           <h2>Juegos</h2>
           <table className="parent-table">
@@ -131,6 +149,11 @@ export const ParentScreen: React.FC<Props> = ({
               </tr>
             </thead>
             <tbody>
+              {report.games.length === 0 && (
+                <tr className="muted">
+                  <td colSpan={4}>Todavía no ha terminado ningún juego.</td>
+                </tr>
+              )}
               {report.games.map((g) => (
                 <tr key={g.id} className={g.plays === 0 ? 'muted' : ''}>
                   <td>{g.title}</td>
