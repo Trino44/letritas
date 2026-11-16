@@ -97,6 +97,54 @@ export const SYLLABLE_GROUPS: SyllableGroup[] = [
       { text: 'tu', word: 'tulipán', emoji: '🌷', parts: ['tu', 'li', 'pán'] },
     ],
   },
+  {
+    id: 'd',
+    letter: 'D',
+    title: 'Sílabas con D',
+    syllables: [
+      { text: 'da', word: 'dado', emoji: '🎲', parts: ['da', 'do'] },
+      { text: 'de', word: 'dedo', emoji: '☝️', parts: ['de', 'do'] },
+      { text: 'di', word: 'dinosaurio', emoji: '🦕' },
+      { text: 'do', word: 'dona', emoji: '🍩', parts: ['do', 'na'] },
+      { text: 'du', word: 'ducha', emoji: '🚿', parts: ['du', 'cha'] },
+    ],
+  },
+  {
+    id: 'n',
+    letter: 'N',
+    title: 'Sílabas con N',
+    syllables: [
+      { text: 'na', word: 'nariz', emoji: '👃', parts: ['na', 'riz'] },
+      { text: 'ne', word: 'negro', emoji: '⚫', parts: ['ne', 'gro'] },
+      { text: 'ni', word: 'nido', emoji: '🪺', parts: ['ni', 'do'] },
+      { text: 'no', word: 'noche', emoji: '🌃', parts: ['no', 'che'] },
+      { text: 'nu', word: 'nube', emoji: '☁️', parts: ['nu', 'be'] },
+    ],
+  },
+  {
+    id: 'f',
+    letter: 'F',
+    title: 'Sílabas con F',
+    syllables: [
+      { text: 'fa', word: 'falda', emoji: '👗', parts: ['fal', 'da'] },
+      { text: 'fe', word: 'feliz', emoji: '😊', parts: ['fe', 'liz'] },
+      { text: 'fi', word: 'fideo', emoji: '🍜', parts: ['fi', 'de', 'o'] },
+      { text: 'fo', word: 'foca', emoji: '🦭', parts: ['fo', 'ca'] },
+      { text: 'fu', word: 'fuego', emoji: '🔥', parts: ['fue', 'go'] },
+    ],
+  },
+  {
+    id: 'b',
+    letter: 'B',
+    title: 'Sílabas con B',
+    syllables: [
+      { text: 'ba', word: 'barco', emoji: '⛵', parts: ['bar', 'co'] },
+      { text: 'be', word: 'bebé', emoji: '👶', parts: ['be', 'bé'] },
+      { text: 'bi', word: 'bici', emoji: '🚲', parts: ['bi', 'ci'] },
+      { text: 'bo', word: 'bota', emoji: '👢', parts: ['bo', 'ta'] },
+      { text: 'bu', word: 'burro', emoji: '🫏', parts: ['bu', 'rro'] },
+    ],
+  },
 ];
 
 /**
@@ -113,6 +161,25 @@ export interface SyllableWord {
   word: string;
   emoji: string;
 }
+
+/** Pares con S y sin S, para que el niño escuche bien el sonido de la S. */
+export const S_PAIRS: SoundPair[] = [
+  {
+    id: 'sopa-copa',
+    soft: { word: 'sopa', emoji: '🍲' },
+    strong: { word: 'copa', emoji: '🏆' },
+  },
+  {
+    id: 'sol-col',
+    soft: { word: 'sol', emoji: '☀️' },
+    strong: { word: 'col', emoji: '🥬' },
+  },
+  {
+    id: 'saco-taco',
+    soft: { word: 'saco', emoji: '🧥' },
+    strong: { word: 'taco', emoji: '🌮' },
+  },
+];
 
 export const R_PAIRS: SoundPair[] = [
   {

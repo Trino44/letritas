@@ -272,6 +272,60 @@ const t = letter('t-min', 't', 'te', 'tomate', '🍅', [
   'M32 40 L62 40',
 ]);
 
+const D = letter('D', 'D', 'de', 'dado', '🎲', [
+  'M30 10 L30 90',
+  'M30 10 L46 10 C66 10 78 28 78 50 C78 72 66 90 46 90 L30 90',
+]);
+const d = letter('d-min', 'd', 'de', 'dado', '🎲', [
+  'M70 50 C66 44 59 40 50 40 C37 40 28 51 28 65 C28 79 37 90 50 90 C59 90 66 86 70 80',
+  'M70 10 L70 90',
+]);
+const N = letter(
+  'N',
+  'N',
+  'ene',
+  'nube',
+  '☁️',
+  ['M24 10 L24 90', 'M24 10 L76 90', 'M76 90 L76 10'],
+  'nnn'
+);
+const n = letter(
+  'n-min',
+  'n',
+  'ene',
+  'nube',
+  '☁️',
+  ['M30 40 L30 90', 'M30 56 C30 46 38 40 48 40 C60 40 68 47 68 58 L68 90'],
+  'nnn'
+);
+const F = letter(
+  'F',
+  'F',
+  'efe',
+  'foca',
+  '🦭',
+  ['M30 10 L30 90', 'M30 10 L72 10', 'M30 48 L64 48'],
+  'fff'
+);
+const f = letter(
+  'f-min',
+  'f',
+  'efe',
+  'foca',
+  '🦭',
+  ['M62 16 C58 11 53 10 49 10 C42 10 38 15 38 23 L38 90', 'M26 42 L56 42'],
+  'fff'
+);
+const B = letter('B', 'B', 'be', 'barco', '⛵', [
+  'M30 10 L30 90',
+  'M30 10 L50 10 C62 10 69 17 69 29 C69 41 62 48 50 48 L30 48',
+  'M30 48 L54 48 C67 48 74 57 74 69 C74 82 66 90 53 90 L30 90',
+]);
+const b = letter('b-min', 'b', 'be', 'barco', '⛵', [
+  'M30 10 L30 90',
+  'M30 62 C32 48 41 40 52 40 C64 40 72 51 72 65 C72 79 64 90 52 90 C41 90 33 82 30 72',
+]);
+
 export const LETTER_GROUPS: LetterGroup[] = [
   {
     id: 'vocales-mayusculas',
@@ -289,6 +343,10 @@ export const LETTER_GROUPS: LetterGroup[] = [
   { id: 'p', title: 'La P', letters: [P, p] },
   { id: 'l', title: 'La L', letters: [L, l] },
   { id: 't', title: 'La T', letters: [T, t] },
+  { id: 'd', title: 'La D', letters: [D, d] },
+  { id: 'n', title: 'La N', letters: [N, n] },
+  { id: 'f', title: 'La F', letters: [F, f] },
+  { id: 'b', title: 'La B', letters: [B, b] },
 ];
 
 /** Grupos de vocales (los demás son consonantes con su propia pantalla). */

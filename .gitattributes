@@ -1,0 +1,6 @@
+# Finales de línea iguales en Windows y Linux (evita conflictos al unir).
+* text=auto
+*.wav binary
+*.mp3 binary
+*.m4a binary
+*.png binary

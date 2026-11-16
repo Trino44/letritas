@@ -5,7 +5,13 @@
 
 import type { Clip } from '../services/speech';
 import { ALL_LETTERS } from './letters';
-import { R_PAIRS, SYLLABLE_GROUPS, type SyllableDef } from './syllables';
+import {
+  R_PAIRS,
+  S_PAIRS,
+  SYLLABLE_GROUPS,
+  type SyllableDef,
+} from './syllables';
+import { VOCABULARY } from './vocabulary';
 import type { LetterDef } from './types';
 
 export type { Clip };
@@ -33,6 +39,8 @@ export const PHRASES = {
     id: 'frase-escucha-y-toca',
     text: 'Escucha y toca la sílaba.',
   },
+  tocaLaLetra: { id: 'frase-toca-la-letra', text: 'Escucha y toca la letra.' },
+  completaPalabra: { id: 'frase-completa-palabra', text: '¿Qué sílaba falta?' },
   escuchaYRepite: { id: 'frase-escucha-y-repite', text: 'Escucha y repite.' },
   encuentraParejas: {
     id: 'frase-encuentra-parejas',
@@ -121,5 +129,15 @@ export function allClips(): { section: string; clips: Clip[] }[] {
         R_PAIRS.flatMap((p) => [wordClip(p.soft.word), wordClip(p.strong.word)])
       ),
     },
+    {
+      section: 'S o no S',
+      clips: uniq(
+        S_PAIRS.flatMap((p) => [wordClip(p.soft.word), wordClip(p.strong.word)])
+      ),
+    },
+    ...VOCABULARY.map((c) => ({
+      section: `Vocabulario: ${c.title}`,
+      clips: uniq(c.words.map((w) => wordClip(w.word))),
+    })),
   ];
 }

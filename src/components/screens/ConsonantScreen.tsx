@@ -20,6 +20,10 @@ const GAME_LABEL: Record<GameKind, { icon: string; text: string }> = {
   memory: { icon: '🧠', text: 'Memoria' },
   'build-syllable': { icon: '🧩', text: 'Arma la sílaba' },
   'build-word': { icon: '🔠', text: 'Arma la palabra' },
+  'complete-word': { icon: '✍️', text: 'Completa la palabra' },
+  's-pairs': { icon: '👂', text: '¿S o no S?' },
+  'identify-letter': { icon: '🔎', text: 'Toca la letra' },
+  vocab: { icon: '📚', text: 'Palabras' },
 };
 
 function stars(n: number): string {

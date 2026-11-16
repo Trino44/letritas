@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { findSyllableGroup, SYLLABLE_GROUPS } from '@/content/syllables';
 import { isCorrect, makeSyllableBuild, makeWordBuild } from '@/games/build';
+import { BLANK, makeCompleteRounds } from '@/games/complete';
 import { closeOpen, flip, isFinished, newMemoryGame } from '@/games/memory';
 
 function seeded(seed: number): () => number {
@@ -108,6 +109,22 @@ describe('armar palabras', () => {
       for (const piece of r.answer) expect(r.tiles).toContain(piece);
       const extra = r.tiles.filter((t) => !r.answer.includes(t));
       expect(extra).toHaveLength(2);
+    }
+  });
+});
+
+describe('completa la palabra', () => {
+  it('oculta una sílaba y la ofrece entre 3 opciones distintas', () => {
+    for (const g of SYLLABLE_GROUPS) {
+      for (let seed = 1; seed < 15; seed++) {
+        for (const r of makeCompleteRounds(g, 4, seeded(seed))) {
+          expect(r.prompt).toContain(BLANK);
+          expect(r.prompt.replace(BLANK, r.answer)).toBe(r.word);
+          expect(r.options).toContain(r.answer);
+          expect(r.options).toHaveLength(3);
+          expect(new Set(r.options).size).toBe(3);
+        }
+      }
     }
   });
 });

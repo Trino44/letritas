@@ -8,6 +8,8 @@ import {
   type GameKind,
 } from './content/modules';
 import { findSyllableGroup } from './content/syllables';
+import { findCategory } from './content/vocabulary';
+import { VocabScreen } from './components/screens/VocabScreen';
 import { ErrorBoundary } from './components/layout/ErrorBoundary';
 import { ChoiceGameScreen } from './components/screens/ChoiceGameScreen';
 import { BuildScreen } from './components/screens/BuildScreen';
@@ -25,7 +27,15 @@ import {
   type Level,
 } from './services/progress';
 import { makeSyllableBuild, makeWordBuild } from './games/build';
-import { firstLetterGame, rPairsGame, syllableGame } from './games/catalog';
+import {
+  completeWordGame,
+  firstLetterGame,
+  identifyLetterGame,
+  rPairsGame,
+  sPairsGame,
+  syllableGame,
+  vocabGame,
+} from './games/catalog';
 import { unlockAudio } from './services/sounds';
 import './styles/app.css';
 import './styles/glass.css';
@@ -35,6 +45,8 @@ type ScreenState =
   | { name: 'trace'; letterId: string }
   | { name: 'module'; moduleId: string }
   | { name: 'parents' }
+  | { name: 'vocab' }
+  | { name: 'vocabCategory'; categoryId: string }
   | { name: 'syllables'; groupId: string }
   | { name: 'game'; moduleId: string | null; kind: GameKind };
 
@@ -122,7 +134,12 @@ export const App: React.FC = () => {
     if (screenState.name === 'game') {
       const { moduleId, kind } = screenState;
       const group = moduleId ? findSyllableGroup(moduleId) : undefined;
-      const back = moduleId ? () => goModule(moduleId) : goHome;
+      const back =
+        kind === 'vocab' && moduleId
+          ? () => go({ name: 'vocabCategory', categoryId: moduleId })
+          : moduleId
+            ? () => goModule(moduleId)
+            : goHome;
       if (group && kind === 'repeat') {
         return (
           <RepeatScreen key={`rep-${group.id}`} group={group} onExit={back} />
@@ -152,14 +169,24 @@ export const App: React.FC = () => {
           />
         );
       }
+      const vocab =
+        kind === 'vocab' && moduleId ? findCategory(moduleId) : undefined;
       const def =
         kind === 'first-letter'
           ? firstLetterGame()
-          : kind === 'r-pairs'
-            ? rPairsGame()
-            : group
-              ? syllableGame(group)
-              : null;
+          : kind === 'identify-letter'
+            ? identifyLetterGame()
+            : kind === 'r-pairs'
+              ? rPairsGame()
+              : kind === 's-pairs'
+                ? sPairsGame()
+                : vocab
+                  ? vocabGame(vocab)
+                  : group && kind === 'complete-word'
+                    ? completeWordGame(group)
+                    : group
+                      ? syllableGame(group)
+                      : null;
       if (def) {
         return (
           <ChoiceGameScreen
@@ -169,12 +196,28 @@ export const App: React.FC = () => {
             showEmoji={def.showEmoji}
             showTargetEmoji={def.showTargetEmoji}
             makeRounds={def.makeRounds}
-            onExit={moduleId ? () => goModule(moduleId) : goHome}
+            onExit={back}
             exitIcon={moduleId ? '⬅️' : '🏠'}
             exitLabel={moduleId ? 'Regresar' : 'Inicio'}
           />
         );
       }
+    }
+    if (screenState.name === 'vocab' || screenState.name === 'vocabCategory') {
+      const category =
+        screenState.name === 'vocabCategory'
+          ? (findCategory(screenState.categoryId) ?? null)
+          : null;
+      return (
+        <VocabScreen
+          key={category?.id ?? 'temas'}
+          category={category}
+          onHome={goHome}
+          onBack={() => go({ name: 'vocab' })}
+          onOpen={(id) => go({ name: 'vocabCategory', categoryId: id })}
+          onPlay={(id) => go({ name: 'game', moduleId: id, kind: 'vocab' })}
+        />
+      );
     }
     if (screenState.name === 'parents') {
       return (
@@ -196,6 +239,10 @@ export const App: React.FC = () => {
         onFirstLetterGame={() =>
           go({ name: 'game', moduleId: null, kind: 'first-letter' })
         }
+        onIdentifyLetterGame={() =>
+          go({ name: 'game', moduleId: null, kind: 'identify-letter' })
+        }
+        onVocab={() => go({ name: 'vocab' })}
         onOpenParents={() => go({ name: 'parents' })}
         onFullscreen={() => {
           unlockAudio();
