@@ -10,6 +10,7 @@ import type { SyllableGroup } from '@/content/syllables';
 import { recordActivity, type ItemResult } from '@/services/progress';
 import { playCelebration, playStrokeDone, vibrate } from '@/services/sounds';
 import { play, stopSpeaking, type Clip } from '@/services/speech';
+import { Syl } from '../ui/Syl';
 
 interface RepeatItem {
   key: string;
@@ -24,24 +25,33 @@ interface Props {
 }
 
 const WORDS_PER_GAME = 3;
+const INVERSE_PER_GAME = 2;
 
+function shuffled<T>(items: T[]): T[] {
+  return [...items].sort(() => Math.random() - 0.5);
+}
+
+/** Sílabas directas, unas inversas (as, ar) y unas palabras. */
 function buildItems(group: SyllableGroup): RepeatItem[] {
-  const syllables = group.syllables.map((s) => ({
+  const toItem = (s: { text: string; emoji: string }, clip: Clip) => ({
     key: s.text,
     label: s.text,
     emoji: s.emoji,
-    clip: syllableClip(s),
-  }));
-  const words = [...group.syllables]
-    .sort(() => Math.random() - 0.5)
-    .slice(0, WORDS_PER_GAME)
+    clip,
+  });
+  const syllables = group.syllables.map((s) => toItem(s, syllableClip(s)));
+  const inverse = shuffled(group.inverse ?? [])
+    .slice(0, INVERSE_PER_GAME)
+    .map((s) => toItem(s, syllableClip(s)));
+  const words = shuffled(group.syllables)
+    .slice(0, WORDS_PER_GAME - (inverse.length ? 1 : 0))
     .map((s) => ({
       key: s.word,
       label: s.word,
       emoji: s.emoji,
       clip: wordClip(s.word),
     }));
-  return [...syllables, ...words];
+  return [...syllables, ...inverse, ...words];
 }
 
 export const RepeatScreen: React.FC<Props> = ({ group, onExit }) => {
@@ -159,7 +169,7 @@ export const RepeatScreen: React.FC<Props> = ({ group, onExit }) => {
             <span className="repeat-emoji" aria-hidden="true">
               {item.emoji}
             </span>
-            <span className="repeat-label">{item.label}</span>
+            <Syl text={item.label} className="repeat-label" />
             <span className="repeat-hint">🔊 toca para escuchar</span>
           </button>
 

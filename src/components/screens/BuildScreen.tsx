@@ -15,6 +15,7 @@ import {
   vibrate,
 } from '@/services/sounds';
 import { play, stopSpeaking } from '@/services/speech';
+import { Syl } from '../ui/Syl';
 
 interface Props {
   activityId: string;
@@ -203,7 +204,11 @@ export const BuildScreen: React.FC<Props> = ({
                     : 'Casilla vacía'
                 }
               >
-                {placed[slot] !== undefined ? round.tiles[placed[slot]] : ''}
+                {placed[slot] !== undefined ? (
+                  <Syl text={round.tiles[placed[slot]]} surface="light" />
+                ) : (
+                  ''
+                )}
               </button>
             ))}
           </div>
@@ -220,7 +225,7 @@ export const BuildScreen: React.FC<Props> = ({
                 disabled={placed.includes(i)}
                 aria-label={`Pieza ${t}`}
               >
-                {t}
+                <Syl text={t} />
               </button>
             ))}
           </div>

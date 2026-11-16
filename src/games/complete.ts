@@ -43,7 +43,17 @@ export function makeCompleteRounds(
 
   return words.map((s) => {
     const parts = s.parts as string[];
-    const hide = rng() < 0.7 ? 0 : 1 + Math.floor(rng() * (parts.length - 1));
+    // Casi siempre se oculta la sílaba que se practica (sa en "sapo", rro
+    // en "perro"); a veces otra, para variar.
+    const practiced = Math.max(
+      0,
+      parts.findIndex((p) => pool.includes(p))
+    );
+    const others = parts.map((_, i) => i).filter((i) => i !== practiced);
+    const hide =
+      rng() < 0.7 || others.length === 0
+        ? practiced
+        : others[Math.floor(rng() * others.length)];
     const answer = parts[hide];
     const prompt = parts.map((p, i) => (i === hide ? BLANK : p)).join('');
     const distractors = shuffle(

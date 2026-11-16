@@ -46,6 +46,12 @@ export function styleFor(clip: Clip): string {
         : '';
     return `${BASE_STYLE} Di solo esta palabra, despacio, marcando cada sílaba.${r}`;
   }
+  if (id.startsWith('oracion-') || id.startsWith('cuento-')) {
+    return `${BASE_STYLE} Lee como se lee un cuento a un niño que está aprendiendo a leer: despacio, claro y con expresión.`;
+  }
+  if (id.startsWith('pregunta-')) {
+    return `${BASE_STYLE} Haz la pregunta despacio, con entonación de pregunta, amable.`;
+  }
   if (id.startsWith('letra-') && id.includes('-de-')) {
     return `${BASE_STYLE} Despacio, con una pausa corta después del nombre de la letra.`;
   }

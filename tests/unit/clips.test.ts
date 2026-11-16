@@ -18,11 +18,17 @@ describe('clips de audio', () => {
     );
   });
 
-  it('las palabras de sílabas empiezan con su sílaba', () => {
+  it('las palabras contienen su sílaba (al inicio, salvo grupos como la RR)', () => {
+    const plain = (w: string) =>
+      w.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     for (const g of SYLLABLE_GROUPS) {
       for (const s of g.syllables) {
-        expect(s.word.startsWith(s.text)).toBe(true);
+        if (g.medial) expect(plain(s.word)).toContain(s.text);
+        else expect(s.word.startsWith(s.text)).toBe(true);
         expect(syllableClip(s).id).toBe(`silaba-${s.text}`);
+      }
+      for (const s of g.inverse ?? []) {
+        expect(plain(s.word)).toContain(s.text);
       }
     }
   });

@@ -49,6 +49,8 @@ const GAME_PREFIX: [string, string][] = [
   ['arma-silaba-', 'Arma la sílaba'],
   ['arma-palabra-', 'Arma la palabra'],
   ['completa-', 'Completa la palabra'],
+  ['lee-', 'Lee conmigo'],
+  ['cuento-', 'Cuento'],
 ];
 
 const FIXED_TITLES: Record<string, string> = {

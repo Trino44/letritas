@@ -16,6 +16,7 @@ import {
   vibrate,
 } from '@/services/sounds';
 import { play, stopSpeaking, type Clip } from '@/services/speech';
+import { Syl } from '../ui/Syl';
 
 export interface ChoiceItem {
   key: string;
@@ -213,9 +214,10 @@ export const ChoiceGameScreen: React.FC<Props> = ({
                       {opt.emoji}
                     </span>
                   )}
-                  <span className={showEmoji ? 'syl-word-big' : 'syl-text'}>
-                    {opt.label}
-                  </span>
+                  <Syl
+                    text={opt.label}
+                    className={showEmoji ? 'syl-word-big' : 'syl-text'}
+                  />
                 </button>
               );
             })}

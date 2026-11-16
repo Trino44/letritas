@@ -163,6 +163,7 @@ export function pictureWords(): PictureWord[] {
     if (l.char === l.char.toUpperCase()) add(l.word, l.emoji, l.char);
   }
   for (const g of SYLLABLE_GROUPS) {
+    if (g.medial) continue; // "perro" no empieza con RR
     for (const s of g.syllables) add(s.word, s.emoji, g.letter);
   }
   return out;
