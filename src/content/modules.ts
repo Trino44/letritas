@@ -4,7 +4,7 @@
  * id), sus sílabas en syllables.ts y una entrada aquí.
  */
 
-export type GameKind = 'syllables' | 'r-pairs';
+export type GameKind = 'syllables' | 'r-pairs' | 'first-letter';
 
 export interface ConsonantModule {
   /** Igual al id del grupo de letras y del grupo de sílabas. */

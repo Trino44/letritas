@@ -33,6 +33,10 @@ export const PHRASES = {
     id: 'frase-escucha-y-toca',
     text: 'Escucha y toca la sílaba.',
   },
+  conQueEmpieza: {
+    id: 'frase-con-que-empieza',
+    text: '¿Con qué letra empieza?',
+  },
   escuchaPalabra: {
     id: 'frase-escucha-palabra',
     text: 'Escucha y toca la palabra que oíste.',

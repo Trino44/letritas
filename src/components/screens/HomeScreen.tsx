@@ -3,29 +3,27 @@ import { isVowelGroup, LETTER_GROUPS } from '@/content/letters';
 import { CONSONANT_MODULES } from '@/content/modules';
 import { findSyllableGroup } from '@/content/syllables';
 import type { LetterDef } from '@/content/types';
-import { LEVEL_LABEL, type Level } from '@/services/progress';
+import { ParentGate } from '../layout/ParentGate';
 
 interface Props {
-  level: Level;
   completions: Record<string, number>;
   onSelectLetter: (letterId: string) => void;
   onSelectModule: (moduleId: string) => void;
-  onChangeLevel: (level: Level) => void;
+  onFirstLetterGame: () => void;
+  onOpenParents: () => void;
   onFullscreen: () => void;
 }
-
-const LEVELS: Level[] = ['facil', 'normal', 'dificil'];
 
 function stars(n: number): string {
   return '★'.repeat(Math.min(3, n)) + '☆'.repeat(Math.max(0, 3 - n));
 }
 
 export const HomeScreen: React.FC<Props> = ({
-  level,
   completions,
   onSelectLetter,
   onSelectModule,
-  onChangeLevel,
+  onFirstLetterGame,
+  onOpenParents,
   onFullscreen,
 }) => {
   const letterButton = (l: LetterDef) => {
@@ -53,20 +51,7 @@ export const HomeScreen: React.FC<Props> = ({
       <header className="home-header">
         <h1 className="home-title">Letritas</h1>
         <div className="home-level">
-          <div className="segmented" role="radiogroup" aria-label="Nivel">
-            {LEVELS.map((lv) => (
-              <button
-                key={lv}
-                type="button"
-                role="radio"
-                aria-checked={level === lv}
-                className={level === lv ? 'seg active' : 'seg'}
-                onClick={() => onChangeLevel(lv)}
-              >
-                {LEVEL_LABEL[lv]}
-              </button>
-            ))}
-          </div>
+          <ParentGate onOpen={onOpenParents} />
         </div>
         <button
           type="button"
@@ -87,7 +72,7 @@ export const HomeScreen: React.FC<Props> = ({
         ))}
 
         <section className="letter-group">
-          <h2>Consonantes</h2>
+          <h2>Consonantes y juegos</h2>
           <div className="letter-row">
             {CONSONANT_MODULES.map((m) => {
               const syl = findSyllableGroup(m.id);
@@ -111,6 +96,15 @@ export const HomeScreen: React.FC<Props> = ({
                 </button>
               );
             })}
+            <button
+              type="button"
+              className="letter-btn module-btn game-btn"
+              onClick={onFirstLetterGame}
+              aria-label="¿Con qué empieza?"
+            >
+              <span className="letter-btn-char">🔤</span>
+              <span className="module-syl">¿Con qué empieza?</span>
+            </button>
           </div>
         </section>
       </div>

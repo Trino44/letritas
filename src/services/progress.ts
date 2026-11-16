@@ -123,3 +123,9 @@ export function recordActivity(
 export function getActivities(): ActivityResult[] {
   return load().activities ?? [];
 }
+
+/** Borra intentos y resultados de juegos (conserva el nivel). */
+export function clearProgress(): void {
+  const d = load();
+  save({ version: 1, level: d.level, attempts: [], activities: [] });
+}

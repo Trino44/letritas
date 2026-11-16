@@ -33,6 +33,8 @@ interface Props {
   intro: Clip;
   /** true = la imagen se ve siempre (para palabras); false = solo al acertar. */
   showEmoji: boolean;
+  /** Muestra en grande la imagen del objetivo (p. ej. ¿Con qué empieza?). */
+  showTargetEmoji?: boolean;
   makeRounds: () => Round<ChoiceItem>[];
   onExit: () => void;
   exitIcon: string;
@@ -45,6 +47,7 @@ export const ChoiceGameScreen: React.FC<Props> = ({
   activityId,
   intro,
   showEmoji,
+  showTargetEmoji = false,
   makeRounds,
   onExit,
   exitIcon,
@@ -96,7 +99,7 @@ export const ChoiceGameScreen: React.FC<Props> = ({
       if (clean) setFirstTry((n) => n + 1);
       setFeedback({ kind: 'right', key: opt.key });
       const praise = PRAISE[Math.floor(Math.random() * PRAISE.length)];
-      void play([praise, ...opt.rewardClips], 0.75);
+      void play([praise, ...round.target.rewardClips], 0.75);
       timer.current = window.setTimeout(() => {
         wrongThisRound.current = false;
         setFeedback({ kind: 'none' });
@@ -170,13 +173,24 @@ export const ChoiceGameScreen: React.FC<Props> = ({
           >
             🔊
           </button>
+          {showTargetEmoji && (
+            <button
+              type="button"
+              className="target-emoji"
+              onClick={() => sayTarget(false)}
+              aria-label="Escuchar la palabra"
+            >
+              {round.target.emoji}
+            </button>
+          )}
           <div className="game-options">
             {round.options.map((opt) => {
               const state =
                 feedback.kind !== 'none' && feedback.key === opt.key
                   ? feedback.kind
                   : '';
-              const emojiVisible = showEmoji || state === 'right';
+              const emojiVisible =
+                (showEmoji || state === 'right') && opt.emoji !== '';
               return (
                 <button
                   key={opt.key}

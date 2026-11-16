@@ -15,6 +15,7 @@ interface Props {
 const GAME_LABEL: Record<GameKind, { icon: string; text: string }> = {
   syllables: { icon: '🎮', text: 'Juego de sílabas' },
   'r-pairs': { icon: '👂', text: 'R suave o RR' },
+  'first-letter': { icon: '🔤', text: '¿Con qué empieza?' },
 };
 
 function stars(n: number): string {

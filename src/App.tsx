@@ -7,6 +7,7 @@ import { ErrorBoundary } from './components/layout/ErrorBoundary';
 import { ChoiceGameScreen } from './components/screens/ChoiceGameScreen';
 import { ConsonantScreen } from './components/screens/ConsonantScreen';
 import { HomeScreen } from './components/screens/HomeScreen';
+import { ParentScreen } from './components/screens/ParentScreen';
 import { SyllablesScreen } from './components/screens/SyllablesScreen';
 import { TraceScreen } from './components/screens/TraceScreen';
 import {
@@ -15,7 +16,7 @@ import {
   setLevel,
   type Level,
 } from './services/progress';
-import { rPairsGame, syllableGame } from './games/catalog';
+import { firstLetterGame, rPairsGame, syllableGame } from './games/catalog';
 import { unlockAudio } from './services/sounds';
 import './styles/app.css';
 
@@ -23,8 +24,9 @@ type ScreenState =
   | { name: 'home' }
   | { name: 'trace'; letterId: string }
   | { name: 'module'; moduleId: string }
+  | { name: 'parents' }
   | { name: 'syllables'; groupId: string }
-  | { name: 'game'; moduleId: string; kind: GameKind };
+  | { name: 'game'; moduleId: string | null; kind: GameKind };
 
 async function enterFullscreen(): Promise<void> {
   try {
@@ -109,34 +111,52 @@ export const App: React.FC = () => {
     }
     if (screenState.name === 'game') {
       const { moduleId, kind } = screenState;
-      const group = findSyllableGroup(moduleId);
+      const group = moduleId ? findSyllableGroup(moduleId) : undefined;
       const def =
-        kind === 'r-pairs' ? rPairsGame() : group ? syllableGame(group) : null;
+        kind === 'first-letter'
+          ? firstLetterGame()
+          : kind === 'r-pairs'
+            ? rPairsGame()
+            : group
+              ? syllableGame(group)
+              : null;
       if (def) {
         return (
           <ChoiceGameScreen
-            key={`${moduleId}-${kind}`}
+            key={`${moduleId ?? 'inicio'}-${kind}`}
             activityId={def.id}
             intro={def.intro}
             showEmoji={def.showEmoji}
+            showTargetEmoji={def.showTargetEmoji}
             makeRounds={def.makeRounds}
-            onExit={() => goModule(moduleId)}
-            exitIcon="⬅️"
-            exitLabel="Regresar"
+            onExit={moduleId ? () => goModule(moduleId) : goHome}
+            exitIcon={moduleId ? '⬅️' : '🏠'}
+            exitLabel={moduleId ? 'Regresar' : 'Inicio'}
           />
         );
       }
     }
+    if (screenState.name === 'parents') {
+      return (
+        <ParentScreen
+          level={level}
+          onChangeLevel={(lv) => {
+            setLevel(lv);
+            setLevelState(lv);
+          }}
+          onExit={goHome}
+        />
+      );
+    }
     return (
       <HomeScreen
-        level={level}
         completions={completions}
         onSelectLetter={(id) => go({ name: 'trace', letterId: id })}
         onSelectModule={(id) => go({ name: 'module', moduleId: id })}
-        onChangeLevel={(lv) => {
-          setLevel(lv);
-          setLevelState(lv);
-        }}
+        onFirstLetterGame={() =>
+          go({ name: 'game', moduleId: null, kind: 'first-letter' })
+        }
+        onOpenParents={() => go({ name: 'parents' })}
         onFullscreen={() => {
           unlockAudio();
           void enterFullscreen();

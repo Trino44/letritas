@@ -13,13 +13,17 @@
     "format": "oxfmt",
     "format:check": "oxfmt --check",
     "guion": "tsx scripts/guion.ts",
-    "voces": "tsx scripts/voces.ts"
+    "voces": "tsx scripts/voces.ts",
+    "android:agregar": "npx cap add android",
+    "android:sincronizar": "npm run build && npx cap sync android",
+    "android:abrir": "npx cap open android"
   },
   "dependencies": {
     "konva": "^10.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-konva": "^19.0.0"
+    "react-konva": "^19.0.0",
+    "@capacitor/android": "^8.6.2"
   },
   "devDependencies": {
     "@capacitor/cli": "^8.0.0",

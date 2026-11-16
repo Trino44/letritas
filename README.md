@@ -2,7 +2,7 @@
 
 App para que niños pequeños aprendan a trazar letras con el dedo, en español mexicano.
 
-Incluye vocales, S y R para trazar; sílabas sa–su y ra–ru; el juego "Escucha y toca" y el juego "R suave o RR" (pera / perra).
+Incluye vocales, S y R para trazar; sílabas sa–su y ra–ru; los juegos "Escucha y toca", "R suave o RR" (pera / perra) y "¿Con qué empieza?"; y un panel para papás (mantener presionado 👪 en el inicio).
 
 El niño pone el dedo en el punto verde y sigue la flecha. La letra se va rellenando conforme avanza. Si se sale del camino, el camino se pone rojo y el teléfono vibra suave, sin perder lo avanzado. Al terminar escucha la letra y una palabra ejemplo.
 
@@ -72,6 +72,18 @@ Se hace una sola vez en la computadora; la app no llama a Gemini ni necesita int
 4. Escucha los audios en `public/audio/`. Para rehacer alguno: `npm run voces -- --solo silaba-sa,palabra-perra`. Para probar otra voz: `npm run voces -- --voz Achird --solo frase-muy-bien`.
 
 Los sonidos sueltos (`sonido-s`, `sonido-r`) son los más difíciles para una voz artificial: revísalos con cuidado y, si no suenan bien, grábalos tú como `.m4a` con el mismo nombre. Una grabación siempre gana sobre la generada.
+
+## Instalar en Android
+
+**Rápido, sin instalar nada:** abre la app en Chrome del celular (dirección `Network` de `npm run dev`) → menú ⋮ → **Agregar a pantalla principal**. Funciona mientras tu computadora tenga el servidor corriendo.
+
+**Como app (APK), sin depender de la computadora:**
+
+1. Instala [Android Studio](https://developer.android.com/studio) (trae el SDK de Android y Java).
+2. Una sola vez: `npm run android:agregar` (crea la carpeta `android/`).
+3. Cada vez que cambie la app o se agreguen audios: `npm run android:sincronizar`.
+4. `npm run android:abrir` abre el proyecto en Android Studio. Conecta el celular por USB con la depuración USB activada y presiona ▶ Run, o usa **Build → Build APK(s)** para generar el archivo e instalarlo.
+5. Ícono: en Android Studio, clic derecho en `app` → **New → Image Asset** y elige `public/icons/icon-512.png`.
 
 ## Privacidad
 
