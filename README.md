@@ -82,8 +82,22 @@ Los sonidos sueltos (`sonido-s`, `sonido-r`) son los más difíciles para una vo
 1. Instala [Android Studio](https://developer.android.com/studio) (trae el SDK de Android y Java).
 2. Una sola vez: `npm run android:agregar` (crea la carpeta `android/`).
 3. Cada vez que cambie la app o se agreguen audios: `npm run android:sincronizar`.
-4. `npm run android:abrir` abre el proyecto en Android Studio. Conecta el celular por USB con la depuración USB activada y presiona ▶ Run, o usa **Build → Build APK(s)** para generar el archivo e instalarlo.
-5. Ícono: en Android Studio, clic derecho en `app` → **New → Image Asset** y elige `public/icons/icon-512.png`.
+4. `npm run android:abrir` abre el proyecto en Android Studio. Conecta el celular por USB con la depuración USB activada y presiona ▶ Run, o genera el APK desde la terminal (ver abajo).
+5. Ícono: `npm run android:iconos` (lo genera desde `public/icons/icon-512.png` con fondo `#241357`).
+
+### Generar APK
+
+Requisitos (una sola vez): Android Studio instalado y, en PowerShell, `setx ANDROID_HOME "$env:LOCALAPPDATA\Android\Sdk"` y `setx JAVA_HOME "C:\Program Files\Android\Android Studio\jbr"`; luego reinicia VS Code.
+
+```powershell
+npm run android:sincronizar      # compila la app y copia dist/ (incluye public/audio) a android/
+npm run android:iconos           # solo si cambió el ícono
+cd android
+.\gradlew.bat assembleDebug
+cd ..
+```
+
+El APK queda en `android\app\build\outputs\apk\debug\app-debug.apk`. Cópialo al celular y ábrelo para instalar o actualizar (la versión nueva reemplaza a la anterior y conserva el progreso).
 
 ## Privacidad
 

@@ -9,10 +9,15 @@ dist-ssr/
 build/
 *.local
 
-# Capacitor
+# Capacitor (android/ sí se sube; solo se ignora lo compilado)
 ios/
-android/
 .app/
+android/build/
+android/app/build/
+android/.gradle/
+android/local.properties
+.gradle/
+local.properties
 
 # Environment variables
 .env

@@ -16,16 +16,18 @@
     "voces": "tsx scripts/voces.ts",
     "android:agregar": "npx cap add android",
     "android:sincronizar": "npm run build && npx cap sync android",
-    "android:abrir": "npx cap open android"
+    "android:abrir": "npx cap open android",
+    "android:iconos": "tsx scripts/iconos-android.ts"
   },
   "dependencies": {
+    "@capacitor/android": "^8.6.2",
     "konva": "^10.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-konva": "^19.0.0",
-    "@capacitor/android": "^8.6.2"
+    "react-konva": "^19.0.0"
   },
   "devDependencies": {
+    "@capacitor/assets": "^4.0.0",
     "@capacitor/cli": "^8.0.0",
     "@capacitor/core": "^8.0.0",
     "@testing-library/jest-dom": "^7.0.0",
